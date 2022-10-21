@@ -1,0 +1,19 @@
+# ninja log v5
+1	226	6880891605194672	build.ninja	b99ee18d04fa40bd
+2	1143	6880793559003885	CMakeFiles/SDL_test.dir/main.cpp.obj	819809369087fb9c
+14	1073	6880793558302065	CMakeFiles/SDL_test.dir/GameObject.cpp.obj	9a929184aa720957
+710	903	6880799156305947	SDL_test.exe	73e83834383ad994
+1	406	6879794909177710	CMakeFiles/SDL_test.dir/Map.cpp.obj	89319a00ba21626f
+10	1005	6880035005550798	CMakeFiles/SDL_test.dir/TextureManager.cpp.obj	a17ef672739a7752
+5	628	6880036609572091	CMakeFiles/SDL_test.dir/GameObjects/GameObject.cpp.obj	dd4f0c593722249b
+2	710	6880799154663254	CMakeFiles/SDL_test.dir/Game.cpp.obj	77ce1ef67fc0a951
+6	1061	6879910895334463	CMakeFiles/SDL_test.dir/ECS.cpp.obj	17a7ecd1c6d872cd
+6	346	6880721058459508	CMakeFiles/SDL_test.dir/PlayerShip.cpp.obj	121a32c2d6408f2b
+1	299	6880666222834866	CMakeFiles/SDL_test.dir/HelperClasses/Map.cpp.obj	e408ce17f665efed
+9	1138	6880793558962610	CMakeFiles/SDL_test.dir/HelperClasses/TextureManager.cpp.obj	698195b141550619
+707	1017	6880689545703349	CMakeFiles/SDL_test.dir/Enemies/Ranger.cpp.obj	cf0372461bd707c2
+20	707	6880689542627768	CMakeFiles/SDL_test.dir/Bullets/PlayerBullet.cpp.obj	df42b264ed2cf33
+6	335	6880734847533563	CMakeFiles/SDL_test.dir/Enemies/Nimble.cpp.obj	c50a40f5d53885cc
+26	528	6880481944508023	CMakeFiles/SDL_test.dir/Bullets/PlayerRocket.cpp.obj	37be91f61d736a08
+1013	1253	6880689548105582	CMakeFiles/SDL_test.dir/Bullets/EnemyBullet.cpp.obj	493062415e5a1b7c
+6	487	6880799152429350	CMakeFiles/SDL_test.dir/Bullets/NimbleMissile.cpp.obj	63184b4fad223490

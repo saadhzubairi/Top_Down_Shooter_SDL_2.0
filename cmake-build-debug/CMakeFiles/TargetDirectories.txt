@@ -1,0 +1,3 @@
+C:/Users/Saad Zubairi/CLionProjects/SDL_test/cmake-build-debug/CMakeFiles/SDL_test.dir
+C:/Users/Saad Zubairi/CLionProjects/SDL_test/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Saad Zubairi/CLionProjects/SDL_test/cmake-build-debug/CMakeFiles/rebuild_cache.dir
