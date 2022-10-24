@@ -12,7 +12,7 @@ NimbleMissile::NimbleMissile(int TarX, int TarY, const char *textureSheet, int x
     dY = TarY - yPos;
     slope = dY / dX;
     xFactor = dY / slope;
-    xFactor = xFactor / 100;
+    xFactor = xFactor / 50;
 }
 
 NimbleMissile::~NimbleMissile() {

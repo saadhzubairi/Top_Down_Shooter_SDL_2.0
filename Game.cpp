@@ -21,6 +21,9 @@ PlayerShip *player;
 Ranger *ranger;
 Nimble *nimble;
 
+int Game::height = 0;
+int Game::width = 0;
+
 Map *map;
 SDL_Event Game::event;
 
@@ -70,10 +73,10 @@ void Game::handleEvents() {
     } else if (event.type == SDL_KEYDOWN) {
         switch (event.key.keysym.sym) {
             case SDLK_RIGHT:
-                player->Translate(5, 0);
+                player->Translate(7, 0);
                 break;
             case SDLK_LEFT:
-                player->Translate(-5, 0);
+                player->Translate(-7, 0);
                 break;
             case SDLK_UP:
                 player->Translate(0, -5);
@@ -163,7 +166,6 @@ void Game::clean() {
 
 bool Game::running() { return this->isRunning; }
 
-
 void Game::deleteDeadStuff() {
     for (int i = 0; i < Game::playerBullets.size(); ++i) {
         if (!Game::playerBullets.at(i)->isAlive()) {
@@ -219,17 +221,18 @@ void Game::checkCollisions() {
         }
 
         if (playerMissile->yPos >= (nimble->yPos) && playerMissile->yPos <= (nimble->yPos + 50)) {
-            if (playerMissile->xPos >= (nimble->xPos - 64) && playerMissile->xPos <= (nimble->xPos + 64)) {
+            if (playerMissile->xPos >= (nimble->xPos - 32) && playerMissile->xPos <= (nimble->xPos + 32)) {
                 nimble->TakeHit();
                 playerMissile->Destroy();
             }
         }
 
+        //NIMBLE DODGE
         if (playerMissile->yPos >= (nimble->yPos) && playerMissile->yPos <= (nimble->yPos + 150)) {
             if (playerMissile->xPos >= (nimble->xPos - 64) && playerMissile->xPos <= (nimble->xPos)) {
-                nimble->Translate(3, 0);
+                nimble->Translate(200, 0);
             } else if (playerMissile->xPos >= (nimble->xPos) && playerMissile->xPos <= (nimble->xPos + 64)) {
-                nimble->Translate(-3, 0);
+                nimble->Translate(-200, 0);
             }
         }
     }
@@ -261,11 +264,12 @@ void Game::respawnEnemies() {
 }
 
 void Game::addEnemyBullet() {
-    int x = rand() % 100;
-    if (x > 95) {
+    int x = rand() % 200;
+    if (x > 188) {
         if (ranger->xPos >= player->xPos - 64 && ranger->xPos <= player->xPos + 64) {
-            EnemyBullet *enemyBullet = new EnemyBullet("../Assets/Bullets_enemy.png", ranger->xPos, ranger->yPos, 256,
-                                                       3);
+            EnemyBullet *enemyBullet = new EnemyBullet("../Assets/Bullets_enemy.png",
+                                                       ranger->xPos,ranger->yPos,
+                                                       256,3);
             Game::enemyBullets.push_back(enemyBullet);
         }
     }
@@ -273,7 +277,7 @@ void Game::addEnemyBullet() {
 
 void Game::addNimbleBullet() {
     int x = rand() % 200;
-    if (x > 195) {
+    if (x > 188) {
         NimbleMissile *enemyBullet = new NimbleMissile(player->xPos, player->yPos,
                                                      "../Assets/Bullets_enemy.png",
                                                      nimble->xPos, nimble->yPos, 256,

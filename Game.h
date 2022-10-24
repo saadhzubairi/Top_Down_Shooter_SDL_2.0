@@ -30,12 +30,12 @@ public:
     static std::vector<PlayerBullet*> playerBullets;
     static std::vector<PlayerBullet*> playerMissile;
     static std::vector<EnemyBullet*> enemyBullets;
+    static int height;
+    static int width;
 
 private:
     static int cnt;
     static int missileCount;
     bool isRunning;
     SDL_Window *window;
-    int height;
-    int width;
 };

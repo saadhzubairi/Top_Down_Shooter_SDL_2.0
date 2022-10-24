@@ -1,5 +1,5 @@
 #include "PlayerShip.h"
-
+#include "Game.h"
 
 PlayerShip::PlayerShip(const char *textureSheet, int x, int y, int spriteSizeXY, int spriteNum) : GameObject(textureSheet, x, y, spriteSizeXY, spriteNum) {
     this->xPos = x;
@@ -20,6 +20,12 @@ void PlayerShip::Move() {
         yPos += (int) tY;
         tX *= fric;
         tY *= fric;
+        if(xPos>Game::width){
+            xPos = 0;
+        }
+        if(xPos< -128){
+            xPos = Game::width;
+        }
     }
 }
 
