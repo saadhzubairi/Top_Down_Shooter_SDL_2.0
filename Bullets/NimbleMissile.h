@@ -10,7 +10,7 @@ private:
     int TarX;
     int TarY;
     int xFactor;
-    int dX;
-    int dY;
+    float dX;
+    float dY;
     float slope;
 };

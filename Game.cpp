@@ -188,7 +188,10 @@ void Game::deleteDeadStuff() {
 
 void Game::checkCollisions() {
 
+
+    //IF BULLET HITS RANGER OR NIMBLE:
     for (PlayerBullet *playerBullet: Game::playerBullets) {
+        //RANGER
         if (playerBullet->yPos >= (ranger->yPos) && playerBullet->yPos <= (ranger->yPos + 50)) {
             if (playerBullet->xPos >= (ranger->xPos - 64) && playerBullet->xPos <= (ranger->xPos + 64)) {
                 ranger->TakeHit();
@@ -196,18 +199,20 @@ void Game::checkCollisions() {
             }
         }
 
+        //NIMBLE
         if (playerBullet->yPos >= (nimble->yPos) && playerBullet->yPos <= (nimble->yPos + 50)) {
-            if (playerBullet->xPos >= (nimble->xPos - 64) && playerBullet->xPos <= (nimble->xPos + 64)) {
+            if (playerBullet->xPos >= (nimble->xPos - 32) && playerBullet->xPos <= (nimble->xPos + 32)) {
                 nimble->TakeHit();
                 playerBullet->Destroy();
             }
         }
 
+        //NIMBLE DODGE
         if (playerBullet->yPos >= (nimble->yPos) && playerBullet->yPos <= (nimble->yPos + 150)) {
             if (playerBullet->xPos >= (nimble->xPos - 64) && playerBullet->xPos <= (nimble->xPos)) {
-                nimble->Translate(3, 0);
+                nimble->Translate(10, 0);
             } else if (playerBullet->xPos >= (nimble->xPos) && playerBullet->xPos <= (nimble->xPos + 64)) {
-                nimble->Translate(-3, 0);
+                nimble->Translate(-10, 0);
             }
         }
     }
@@ -265,7 +270,7 @@ void Game::respawnEnemies() {
 
 void Game::addEnemyBullet() {
     int x = rand() % 200;
-    if (x > 188) {
+    if (x > 196) {
         if (ranger->xPos >= player->xPos - 64 && ranger->xPos <= player->xPos + 64) {
             EnemyBullet *enemyBullet = new EnemyBullet("../Assets/Bullets_enemy.png",
                                                        ranger->xPos,ranger->yPos,
@@ -277,7 +282,7 @@ void Game::addEnemyBullet() {
 
 void Game::addNimbleBullet() {
     int x = rand() % 200;
-    if (x > 188) {
+    if (x > 196) {
         NimbleMissile *enemyBullet = new NimbleMissile(player->xPos, player->yPos,
                                                      "../Assets/Bullets_enemy.png",
                                                      nimble->xPos, nimble->yPos, 256,

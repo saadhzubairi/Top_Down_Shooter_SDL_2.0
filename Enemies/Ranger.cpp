@@ -23,7 +23,7 @@ void Ranger::Move() {
     if (yPos>1000){
         alive = false;
     }
-    GameObject::Translate(0, 1);
+    GameObject::Translate(0, 2);
 }
 
 void Ranger::TakeHit() {
