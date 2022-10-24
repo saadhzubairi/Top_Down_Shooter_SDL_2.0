@@ -8,7 +8,7 @@ public:
     GameObject(const char *textureSheet, int x, int y, int sheetSizeXY, int numSprites);
     ~GameObject();
 
-    void Render();
+    virtual void Render();
     bool isAlive();
     void Destroy();
     virtual void Move() = 0;

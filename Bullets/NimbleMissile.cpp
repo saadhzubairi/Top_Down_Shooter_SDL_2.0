@@ -1,5 +1,6 @@
 #include "NimbleMissile.h"
 #include <stdio.h>
+#include "../Game.h"
 
 NimbleMissile::NimbleMissile(int TarX, int TarY, const char *textureSheet, int x, int y, int sheetSizeXy,
                              int numSprites) :
@@ -13,7 +14,9 @@ NimbleMissile::NimbleMissile(int TarX, int TarY, const char *textureSheet, int x
     slope = dY / dX;
     xFactor = dY / slope;
     xFactor = xFactor / 50;
-    //printf("xFactor = %d ; dX,dY: [%d,%d]; slope: %f\n",xFactor*50,dX,dY,slope);
+
+
+    //printf("xFactor = %d ; dX,dY: [%d,%d]; slope: %f :: %f\n",xFactor*50,dX,dY,slope,xff);
 }
 
 NimbleMissile::~NimbleMissile() {
@@ -29,5 +32,18 @@ void NimbleMissile::Move() {
     GameObject::Translate(xFactor, 9);
     if (yPos > 1000) {
         this->alive = false;
+    }
+}
+
+void NimbleMissile::Render() {
+    int xff = xFactor;
+    frame++;
+    SDL_RenderCopyEx(Game::renderer, objTexture, &gSpriteClips[curSprite], &destR, -xff*7.5, NULL,SDL_FLIP_NONE);
+    if (frame % 60 == 0) {
+        SDL_RenderPresent(Game::renderer);
+        curSprite++;
+        if (curSprite > 2) {
+            curSprite = 0;
+        }
     }
 }

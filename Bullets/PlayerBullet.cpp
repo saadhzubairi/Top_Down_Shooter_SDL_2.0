@@ -26,3 +26,7 @@ void PlayerBullet::Move() {
         /*yPos = Game::height;*/
     }
 }
+
+void PlayerBullet::Render() {
+    GameObject::Render();
+}

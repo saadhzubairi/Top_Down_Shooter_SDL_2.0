@@ -270,7 +270,7 @@ void Game::respawnEnemies() {
 
 void Game::addEnemyBullet() {
     int x = rand() % 200;
-    if (x > 196) {
+    if (x > 189) {
         if (ranger->xPos >= player->xPos - 64 && ranger->xPos <= player->xPos + 64) {
             EnemyBullet *enemyBullet = new EnemyBullet("../Assets/Bullets_enemy.png",
                                                        ranger->xPos,ranger->yPos,
@@ -282,7 +282,7 @@ void Game::addEnemyBullet() {
 
 void Game::addNimbleBullet() {
     int x = rand() % 200;
-    if (x > 200) {
+    if (x > 189) {
         NimbleMissile *enemyBullet = new NimbleMissile(player->xPos, player->yPos,
                                                      "../Assets/Bullets_enemy.png",
                                                      nimble->xPos, nimble->yPos, 256,
@@ -293,9 +293,8 @@ void Game::addNimbleBullet() {
 
 void Game::addPlayerMissile() {
     if (player->hit == false) {
-
         if (missileCount > 0) {
-            PlayerBullet *missile = new PlayerBullet("../Assets/Missiles_ship.png", player->xPos, player->yPos, 256, 3);
+            auto *missile = new PlayerBullet("../Assets/Missiles_ship.png", player->xPos, player->yPos, 256, 3);
             Game::playerMissile.push_back(missile);
             missileCount--;
             if (missileCount == 0) {
@@ -303,7 +302,7 @@ void Game::addPlayerMissile() {
             }
         } else if (cnt > 120) {
             printf("%d\n", cnt);
-            PlayerBullet *missile = new PlayerBullet("../Assets/Missiles_ship.png", player->xPos, player->yPos, 256, 3);
+            auto *missile = new PlayerBullet("../Assets/Missiles_ship.png", player->xPos, player->yPos, 256, 3);
             Game::playerMissile.push_back(missile);
             cnt = 0;
         }

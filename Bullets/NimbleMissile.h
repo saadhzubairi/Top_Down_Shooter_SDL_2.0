@@ -6,6 +6,7 @@ public:
     NimbleMissile(int TarX, int TarY, const char *textureSheet, int x, int y, int sheetSizeXy, int numSprites);
     ~NimbleMissile();
     void Move() override;
+    void Render() override;
 private:
     int TarX;
     int TarY;

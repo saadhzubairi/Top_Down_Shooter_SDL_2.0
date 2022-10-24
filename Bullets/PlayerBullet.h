@@ -10,4 +10,5 @@ public:
     PlayerBullet(const char *textureSheet, int x, int y, int sheetSizeXy, int numSprites);
     ~PlayerBullet();
     void Move() override;
+    void Render();
 };
