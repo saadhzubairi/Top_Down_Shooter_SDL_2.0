@@ -226,18 +226,18 @@ void Game::checkCollisions() {
         }
 
         if (playerMissile->yPos >= (nimble->yPos) && playerMissile->yPos <= (nimble->yPos + 50)) {
-            if (playerMissile->xPos >= (nimble->xPos - 32) && playerMissile->xPos <= (nimble->xPos + 32)) {
+            if (playerMissile->xPos >= (nimble->xPos - 64) && playerMissile->xPos <= (nimble->xPos + 64)) {
                 nimble->TakeHit();
                 playerMissile->Destroy();
             }
         }
 
         //NIMBLE DODGE
-        if (playerMissile->yPos >= (nimble->yPos) && playerMissile->yPos <= (nimble->yPos + 150)) {
-            if (playerMissile->xPos >= (nimble->xPos - 64) && playerMissile->xPos <= (nimble->xPos)) {
-                nimble->Translate(200, 0);
-            } else if (playerMissile->xPos >= (nimble->xPos) && playerMissile->xPos <= (nimble->xPos + 64)) {
-                nimble->Translate(-200, 0);
+        if (playerMissile->yPos >= (nimble->yPos) && playerMissile->yPos <= (nimble->yPos + 256)) {
+            if (playerMissile->xPos >= (nimble->xPos - 128) && playerMissile->xPos <= (nimble->xPos)) {
+                nimble->Translate(1, 0);
+            } else if (playerMissile->xPos >= (nimble->xPos) && playerMissile->xPos <= (nimble->xPos + 128)) {
+                nimble->Translate(-1, 0);
             }
         }
     }
@@ -260,11 +260,11 @@ void Game::checkCollisions() {
 void Game::respawnEnemies() {
     if (!ranger->isAlive()) {
         int x = rand() % 9;
-        ranger = new Ranger("../Assets/Ranger.png", x * 100, 50, 256, 3);
+        ranger = new Ranger("../Assets/Ranger.png", x * 100, -128, 256, 3);
     }
     if (!nimble->isAlive()) {
         int x = rand() % 9;
-        nimble = new Nimble("../Assets/Nimble.png", x * 100, 50, 256, 3);
+        nimble = new Nimble("../Assets/Nimble.png", x * 100, -128, 256, 3);
     }
 }
 
@@ -282,13 +282,12 @@ void Game::addEnemyBullet() {
 
 void Game::addNimbleBullet() {
     int x = rand() % 200;
-    if (x > 196) {
+    if (x > 200) {
         NimbleMissile *enemyBullet = new NimbleMissile(player->xPos, player->yPos,
                                                      "../Assets/Bullets_enemy.png",
                                                      nimble->xPos, nimble->yPos, 256,
                                                      3);
         Game::enemyBullets.push_back(reinterpret_cast<EnemyBullet *const>(enemyBullet));
-
     }
 }
 

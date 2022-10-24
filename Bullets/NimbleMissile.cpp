@@ -13,7 +13,7 @@ NimbleMissile::NimbleMissile(int TarX, int TarY, const char *textureSheet, int x
     slope = dY / dX;
     xFactor = dY / slope;
     xFactor = xFactor / 50;
-    printf("xFactor = %d ; dX,dY: [%d,%d]; slope: %f\n",xFactor*50,dX,dY,slope);
+    //printf("xFactor = %d ; dX,dY: [%d,%d]; slope: %f\n",xFactor*50,dX,dY,slope);
 }
 
 NimbleMissile::~NimbleMissile() {
