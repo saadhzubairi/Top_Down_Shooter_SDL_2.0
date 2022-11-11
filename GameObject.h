@@ -22,7 +22,7 @@ public:
     SDL_Texture *objTexture;
     SDL_Rect srcR, destR;
     SDL_Rect gSpriteClips[3];
-    static int frame;
+    int frame;
     static int curSprite;
 
     void Update();

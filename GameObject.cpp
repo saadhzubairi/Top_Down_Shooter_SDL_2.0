@@ -2,13 +2,14 @@
 #include "HelperClasses/TextureManager.h"
 #include "Game.h"
 
-int GameObject::frame = 0;
+
 int GameObject::curSprite = 0;
 
 GameObject::GameObject(const char *textureSheet, int x, int y,int sheetSizeXY,int numSprites) {
     objTexture = TextureManager::loadSprite(textureSheet, sheetSizeXY, numSprites, gSpriteClips);
     xPos = x;
     yPos = y;
+    frame = 0;
     frame = 0;
 }
 
@@ -28,8 +29,7 @@ void GameObject::Update() {
 void GameObject::Render() {
     frame++;
     SDL_RenderCopy(Game::renderer, objTexture, &gSpriteClips[curSprite], &destR);
-    if (frame % 60 == 0) {
-        SDL_RenderPresent(Game::renderer);
+    if (frame % 20 == 0) {
         curSprite++;
         if (curSprite > 2) {
             curSprite = 0;

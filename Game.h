@@ -1,9 +1,12 @@
+#pragma once
+
 #include<iostream>
 #include <vector>
 #include "SDL.h"
 #include "SDL_image.h"
 #include "Bullets/DefaultBullet.h"
 #include "Bullets/EnemyBullet.h"
+#include "UIElementsForGame/UILabel.h"
 #include "SDL_ttf.h"
 
 class Game {
@@ -28,9 +31,10 @@ public:
 
     static SDL_Renderer *renderer;
     static SDL_Event event;
-    static std::vector<DefaultBullet*> playerBullets;
-    static std::vector<DefaultBullet*> playerMissile;
-    static std::vector<EnemyBullet*> enemyBullets;
+    static std::vector<DefaultBullet* > playerBullets;
+    static std::vector<DefaultBullet* > playerMissile;
+    static std::vector< EnemyBullet*  > enemyBullets;
+
     static int height;
     static int width;
 

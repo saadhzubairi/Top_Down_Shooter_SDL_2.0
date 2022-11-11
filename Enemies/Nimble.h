@@ -7,6 +7,5 @@ public:
     ~Nimble();
     void Move() override;
     void TakeHit();
-private:
     int life;
 };

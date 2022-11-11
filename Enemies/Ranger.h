@@ -6,6 +6,5 @@ public:
     ~Ranger();
     void Move() override;
     void TakeHit();
-private:
     int life;
 };

@@ -11,17 +11,24 @@
 #include "Bullets/NimbleBullet.h"
 #include "Bullets/PlayerBullet.h"
 #include "Bullets/PlayerMissile.h"
+#include "UIElementsForGame/Counters.h"
+
 
 SDL_Renderer *Game::renderer = nullptr;
 
-std::vector<DefaultBullet *> Game::playerBullets;
-std::vector<DefaultBullet *> Game::playerMissile;
-std::vector<EnemyBullet *> Game::enemyBullets;
+std::vector <    DefaultBullet   *>    Game::playerBullets;
+std::vector <    DefaultBullet   *>    Game::playerMissile;
+std::vector <    EnemyBullet     *>    Game::enemyBullets;
+std::vector <    UILabel           *>    labels;
+
+
 int Game::missileCount = 10;
 int Game::cnt = 0;
 PlayerShip *player;
 Ranger *ranger;
 Nimble *nimble;
+
+
 
 int Game::height = 0;
 int Game::width = 0;
@@ -70,6 +77,16 @@ void Game::init(const char *title, int xpos, int ypos, int width, int heigh, boo
     player = new PlayerShip(width / 2 - 66, heigh - 154);
     ranger = new Ranger(200, 50);
     nimble = new Nimble(600, 50);
+
+
+    labels.push_back(new UILabel("Rangers Killed: ", 50, 10, 20));
+    labels.push_back(new UILabel("Nimbles Killed: ", 350, 10, 20));
+    labels.push_back(new UILabel("Rockets Left: ", 760, 10, 20));
+    labels.push_back(new UILabel("0", 200, 10, 20));
+    labels.push_back(new UILabel("0", 500, 10, 20));
+    labels.push_back(new UILabel("0", 900, 10, 20));
+
+
     map = new Map();
 }
 
@@ -77,8 +94,7 @@ void Game::handleEvents() {
     SDL_PollEvent(&event);
     if (event.type == SDL_QUIT) {
         isRunning = false;
-    }
-    else if (event.type == SDL_KEYDOWN ) {
+    } else if (event.type == SDL_KEYDOWN) {
         switch (event.key.keysym.sym) {
             case SDLK_RIGHT:
                 player->Translate(7, 0);
@@ -101,9 +117,7 @@ void Game::handleEvents() {
             default:
                 break;
         }
-    }
-
-    else if (event.type == SDL_KEYUP && event.key.repeat==0) {
+    } else if (event.type == SDL_KEYUP && event.key.repeat == 0) {
         switch (event.key.keysym.sym) {
             case SDLK_RIGHT:
                 player->Translate(7, 0);
@@ -133,6 +147,10 @@ void Game::render() {
     SDL_RenderClear(renderer);
     map->drawMap();
 
+    for (UILabel *label: labels) {
+        label->Render();
+    }
+
     if (player->isAlive()) player->Render();
     if (ranger->isAlive()) ranger->Render();
     if (nimble->isAlive()) nimble->Render();
@@ -147,13 +165,7 @@ void Game::render() {
         enemyBullet->Render();
     }
     //Add stuff to render:
-    SDL_RenderPresent(renderer);
-    if (player->hit) {
-        if (cnt == 120) {
-            clean();
-        }
-    }
-
+    SDL_RenderPresent(Game::renderer);
 }
 
 void Game::update() {
@@ -189,6 +201,23 @@ void Game::update() {
     addEnemyBullet();
     addNimbleBullet();
     cnt++;
+    if (player->hit) {
+        if (cnt == 120) {
+            clean();
+        }
+    }
+
+    if (missileCount == 0) {
+        if (cnt > 120)
+            Counters::rockets_left = 1;
+    }
+
+    std::string m = std::to_string(Counters::ranger_kills);
+    labels[3]->SetText(m);
+     m = std::to_string(Counters::nimble_kills);
+    labels[4]->SetText(m);
+    m = std::to_string(Counters::rockets_left);
+    labels[5]->SetText(m);
 }
 
 void Game::clean() {
@@ -281,7 +310,7 @@ void Game::checkCollisions() {
             if (enemyBullet->xPos >= player->xPos - 64 && enemyBullet->xPos <= player->xPos + 64) {
                 if (!player->hit) {
                     enemyBullet->Destroy();
-                    player->setObjTexture("../Assets/Explosion.png",256,3);
+                    player->setObjTexture("../Assets/Explosion.png", 256, 3);
                     player->TakeHit();
                     cnt = 0;
                 }
@@ -293,10 +322,15 @@ void Game::checkCollisions() {
 
 void Game::respawnEnemies() {
     if (!ranger->isAlive()) {
+        if(ranger->life == 0)
+        Counters::ranger_kills++;
         int x = rand() % 9;
         ranger = new Ranger(x * 100, -128);
     }
     if (!nimble->isAlive()) {
+        if(nimble->life == 0)
+
+        Counters::nimble_kills++;
         int x = rand() % 9;
         nimble = new Nimble(x * 100, -128);
     }
@@ -304,7 +338,7 @@ void Game::respawnEnemies() {
 
 void Game::addEnemyBullet() {
     int x = rand() % 200;
-    if (x > 180) {
+    if (x > 199) {
         if (ranger->xPos >= player->xPos - 64 && ranger->xPos <= player->xPos + 64) {
             EnemyBullet *enemyBullet = new EnemyBullet(
                     ranger->xPos, ranger->yPos);
@@ -315,8 +349,8 @@ void Game::addEnemyBullet() {
 
 void Game::addNimbleBullet() {
     int x = rand() % 200;
-    if (x > 189) {
-        NimbleBullet *enemyBullet = new NimbleBullet(player->xPos, player->yPos,nimble->xPos, nimble->yPos);
+    if (x > 199) {
+        NimbleBullet *enemyBullet = new NimbleBullet(player->xPos, player->yPos, nimble->xPos, nimble->yPos);
         Game::enemyBullets.push_back(reinterpret_cast<EnemyBullet *const>(enemyBullet));
     }
 }
@@ -327,10 +361,12 @@ void Game::addPlayerMissile() {
             auto *missile = new PlayerMissile(player->xPos, player->yPos);
             Game::playerMissile.push_back(missile);
             missileCount--;
+            Counters::rockets_left--;
             if (missileCount == 0) {
                 cnt = 0;
             }
         } else if (cnt > 120) {
+            Counters::rockets_left--;
             printf("%d\n", cnt);
             auto *missile = new PlayerMissile(player->xPos, player->yPos);
             Game::playerMissile.push_back(missile);
