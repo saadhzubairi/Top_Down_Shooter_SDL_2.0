@@ -8,7 +8,7 @@
 #include "Bullets/PlayerBullet.h"
 #include "Bullets/EnemyBullet.h"
 #include "Enemies/Nimble.h"
-#include "Bullets/NimbleMissile.h"
+#include "Bullets/NimbleBullet.h"
 
 SDL_Renderer *Game::renderer = nullptr;
 
@@ -60,9 +60,9 @@ void Game::init(const char *title, int xpos, int ypos, int width, int heigh, boo
         isRunning = true;
     } else { isRunning = false; }
 
-    player = new PlayerShip("../Assets/SHIPS.png", width / 2 - 66, heigh - 154, 256, 3);
-    ranger = new Ranger("../Assets/Ranger.png", 200, 50, 256, 3);
-    nimble = new Nimble("../Assets/Nimble.png", 600, 50, 256, 3);
+    player = new PlayerShip(width / 2 - 66, heigh - 154);
+    ranger = new Ranger(200, 50);
+    nimble = new Nimble(600, 50);
     map = new Map();
 }
 
@@ -247,7 +247,7 @@ void Game::checkCollisions() {
             if (enemyBullet->xPos >= player->xPos - 64 && enemyBullet->xPos <= player->xPos + 64) {
                 if (!player->hit) {
                     enemyBullet->Destroy();
-                    player = new PlayerShip("../Assets/Explosion.png", player->xPos, player->yPos, 256, 3);
+                    //player = new PlayerShip("../Assets/Explosion.png", player->xPos, player->yPos, 256, 3);
                     player->TakeHit();
                     cnt = 0;
                 }
@@ -260,11 +260,11 @@ void Game::checkCollisions() {
 void Game::respawnEnemies() {
     if (!ranger->isAlive()) {
         int x = rand() % 9;
-        ranger = new Ranger("../Assets/Ranger.png", x * 100, -128, 256, 3);
+        ranger = new Ranger( x * 100, -128);
     }
     if (!nimble->isAlive()) {
         int x = rand() % 9;
-        nimble = new Nimble("../Assets/Nimble.png", x * 100, -128, 256, 3);
+        nimble = new Nimble(x * 100, -128);
     }
 }
 
@@ -273,8 +273,8 @@ void Game::addEnemyBullet() {
     if (x > 189) {
         if (ranger->xPos >= player->xPos - 64 && ranger->xPos <= player->xPos + 64) {
             EnemyBullet *enemyBullet = new EnemyBullet("../Assets/Bullets_enemy.png",
-                                                       ranger->xPos,ranger->yPos,
-                                                       256,3);
+                                                       ranger->xPos, ranger->yPos,
+                                                       256, 3);
             Game::enemyBullets.push_back(enemyBullet);
         }
     }
@@ -283,7 +283,7 @@ void Game::addEnemyBullet() {
 void Game::addNimbleBullet() {
     int x = rand() % 200;
     if (x > 189) {
-        NimbleMissile *enemyBullet = new NimbleMissile(player->xPos, player->yPos,
+        NimbleBullet *enemyBullet = new NimbleBullet(player->xPos, player->yPos,
                                                      "../Assets/Bullets_enemy.png",
                                                      nimble->xPos, nimble->yPos, 256,
                                                      3);

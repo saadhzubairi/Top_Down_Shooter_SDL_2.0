@@ -1,8 +1,8 @@
 #include "Ranger.h"
 
 
-Ranger::Ranger(const char *textureSheet, int x, int y, int spriteSizeXY, int numSprites) :
-        GameObject(textureSheet, x, y, spriteSizeXY, numSprites){
+Ranger::Ranger(int x, int y) :
+        GameObject("../Assets/Ranger.png", x, y,  256,3){
     this->xPos = x;
     this->yPos = y;
     this->fric = 0.95;

@@ -2,7 +2,7 @@
 
 class PlayerShip : public GameObject{
 public:
-    PlayerShip(const char *textureSheet, int x, int y, int spriteSizeXY, int numSprites);
+    PlayerShip(int x, int y);
     ~PlayerShip();
     void Move() override;
     bool hit;

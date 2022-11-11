@@ -1,7 +1,7 @@
 #include "Nimble.h"
 
-Nimble::Nimble(const char *textureSheet, int x, int y, int spriteSizeXY, int numSprites) :
-        GameObject(textureSheet, x, y, spriteSizeXY, numSprites) {
+Nimble::Nimble(int x, int y) :
+        GameObject("../Assets/Nimble.png", x, y,  256,3) {
     this->xPos = x;
     this->yPos = y;
     this->fric = 0.95;

@@ -1,7 +1,8 @@
 #include "PlayerShip.h"
 #include "Game.h"
 
-PlayerShip::PlayerShip(const char *textureSheet, int x, int y, int spriteSizeXY, int spriteNum) : GameObject(textureSheet, x, y, spriteSizeXY, spriteNum) {
+PlayerShip::PlayerShip(int x, int y) :
+GameObject("../Assets/SHIPS.png", x, y, 256,3) {
     this->xPos = x;
     this->yPos = y;
     this->fric = 0.95;
