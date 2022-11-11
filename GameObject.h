@@ -16,6 +16,9 @@ public:
     int xPos, yPos;
     float fric, tX, tY;
     bool alive = true;
+
+    void setObjTexture(const char *textureSheet,int sheetSizeXY,int numSprites);
+
     SDL_Texture *objTexture;
     SDL_Rect srcR, destR;
     SDL_Rect gSpriteClips[3];

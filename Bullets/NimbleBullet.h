@@ -1,12 +1,17 @@
 #pragma once
-#include "PlayerBullet.h"
 
-class NimbleBullet : public PlayerBullet{
+#include "DefaultBullet.h"
+
+class NimbleBullet : public DefaultBullet {
 public:
-    NimbleBullet(int TarX, int TarY, const char *textureSheet, int x, int y, int sheetSizeXy, int numSprites);
+    NimbleBullet(int TarX, int TarY, int x, int y);
+
     ~NimbleBullet();
+
     void Move() override;
+
     void Render() override;
+
 private:
     int TarX;
     int TarY;

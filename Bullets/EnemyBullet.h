@@ -1,10 +1,12 @@
 #pragma once
 
-#include "PlayerBullet.h"
+#include "DefaultBullet.h"
 
-class EnemyBullet : public PlayerBullet {
+class EnemyBullet : public DefaultBullet {
 public:
-    EnemyBullet(const char *textureSheet, int x, int y, int sheetSizeXy, int numSprites);
+    EnemyBullet(int x, int y);
+
     ~EnemyBullet();
+
     void Move() override;
 };

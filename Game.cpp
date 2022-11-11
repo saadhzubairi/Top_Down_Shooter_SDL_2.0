@@ -5,15 +5,17 @@
 #include "HelperClasses/Map.h"
 #include "PlayerShip.h"
 #include "Enemies/Ranger.h"
-#include "Bullets/PlayerBullet.h"
+#include "Bullets/DefaultBullet.h"
 #include "Bullets/EnemyBullet.h"
 #include "Enemies/Nimble.h"
 #include "Bullets/NimbleBullet.h"
+#include "Bullets/PlayerBullet.h"
+#include "Bullets/PlayerMissile.h"
 
 SDL_Renderer *Game::renderer = nullptr;
 
-std::vector<PlayerBullet *> Game::playerBullets;
-std::vector<PlayerBullet *> Game::playerMissile;
+std::vector<DefaultBullet *> Game::playerBullets;
+std::vector<DefaultBullet *> Game::playerMissile;
 std::vector<EnemyBullet *> Game::enemyBullets;
 int Game::missileCount = 10;
 int Game::cnt = 0;
@@ -57,6 +59,11 @@ void Game::init(const char *title, int xpos, int ypos, int width, int heigh, boo
             std::cout << "[+] Renderer Created!" << std::endl;
         }
 
+        if (TTF_Init() == -1) {
+        } else {
+            std::cout << "[+] SDL_ttf initialized!" << std::endl;
+        }
+
         isRunning = true;
     } else { isRunning = false; }
 
@@ -70,7 +77,33 @@ void Game::handleEvents() {
     SDL_PollEvent(&event);
     if (event.type == SDL_QUIT) {
         isRunning = false;
-    } else if (event.type == SDL_KEYDOWN) {
+    }
+    else if (event.type == SDL_KEYDOWN ) {
+        switch (event.key.keysym.sym) {
+            case SDLK_RIGHT:
+                player->Translate(7, 0);
+                break;
+            case SDLK_LEFT:
+                player->Translate(-7, 0);
+                break;
+            case SDLK_UP:
+                player->Translate(0, -5);
+                break;
+            case SDLK_DOWN:
+                player->Translate(0, 5);
+                break;
+            case SDLK_SPACE:
+                addPlayerBullet();
+                break;
+            case SDLK_b:
+                addPlayerMissile();
+                break;
+            default:
+                break;
+        }
+    }
+
+    else if (event.type == SDL_KEYUP && event.key.repeat==0) {
         switch (event.key.keysym.sym) {
             case SDLK_RIGHT:
                 player->Translate(7, 0);
@@ -104,10 +137,10 @@ void Game::render() {
     if (ranger->isAlive()) ranger->Render();
     if (nimble->isAlive()) nimble->Render();
 
-    for (PlayerBullet *playerBullet: Game::playerBullets) {
+    for (DefaultBullet *playerBullet: Game::playerBullets) {
         playerBullet->Render();
     }
-    for (PlayerBullet *playerBullet: Game::playerMissile) {
+    for (DefaultBullet *playerBullet: Game::playerMissile) {
         playerBullet->Render();
     }
     for (EnemyBullet *enemyBullet: Game::enemyBullets) {
@@ -120,6 +153,7 @@ void Game::render() {
             clean();
         }
     }
+
 }
 
 void Game::update() {
@@ -138,12 +172,12 @@ void Game::update() {
         nimble->Move();
     }
 
-    for (PlayerBullet *playerBullet: Game::playerBullets) {
+    for (DefaultBullet *playerBullet: Game::playerBullets) {
         playerBullet->Update();
         playerBullet->Move();
     }
 
-    for (PlayerBullet *playerMissile: Game::playerMissile) {
+    for (DefaultBullet *playerMissile: Game::playerMissile) {
         playerMissile->Update();
         playerMissile->Move();
     }
@@ -190,7 +224,7 @@ void Game::checkCollisions() {
 
 
     //IF BULLET HITS RANGER OR NIMBLE:
-    for (PlayerBullet *playerBullet: Game::playerBullets) {
+    for (DefaultBullet *playerBullet: Game::playerBullets) {
         //RANGER
         if (playerBullet->yPos >= (ranger->yPos) && playerBullet->yPos <= (ranger->yPos + 50)) {
             if (playerBullet->xPos >= (ranger->xPos - 64) && playerBullet->xPos <= (ranger->xPos + 64)) {
@@ -217,7 +251,7 @@ void Game::checkCollisions() {
         }
     }
 
-    for (PlayerBullet *playerMissile: Game::playerMissile) {
+    for (DefaultBullet *playerMissile: Game::playerMissile) {
         if (playerMissile->yPos >= (ranger->yPos) && playerMissile->yPos <= (ranger->yPos + 50)) {
             if (playerMissile->xPos >= (ranger->xPos - 64) && playerMissile->xPos <= (ranger->xPos + 64)) {
                 ranger->TakeHit();
@@ -247,7 +281,7 @@ void Game::checkCollisions() {
             if (enemyBullet->xPos >= player->xPos - 64 && enemyBullet->xPos <= player->xPos + 64) {
                 if (!player->hit) {
                     enemyBullet->Destroy();
-                    //player = new PlayerShip("../Assets/Explosion.png", player->xPos, player->yPos, 256, 3);
+                    player->setObjTexture("../Assets/Explosion.png",256,3);
                     player->TakeHit();
                     cnt = 0;
                 }
@@ -260,7 +294,7 @@ void Game::checkCollisions() {
 void Game::respawnEnemies() {
     if (!ranger->isAlive()) {
         int x = rand() % 9;
-        ranger = new Ranger( x * 100, -128);
+        ranger = new Ranger(x * 100, -128);
     }
     if (!nimble->isAlive()) {
         int x = rand() % 9;
@@ -270,11 +304,10 @@ void Game::respawnEnemies() {
 
 void Game::addEnemyBullet() {
     int x = rand() % 200;
-    if (x > 189) {
+    if (x > 180) {
         if (ranger->xPos >= player->xPos - 64 && ranger->xPos <= player->xPos + 64) {
-            EnemyBullet *enemyBullet = new EnemyBullet("../Assets/Bullets_enemy.png",
-                                                       ranger->xPos, ranger->yPos,
-                                                       256, 3);
+            EnemyBullet *enemyBullet = new EnemyBullet(
+                    ranger->xPos, ranger->yPos);
             Game::enemyBullets.push_back(enemyBullet);
         }
     }
@@ -283,10 +316,7 @@ void Game::addEnemyBullet() {
 void Game::addNimbleBullet() {
     int x = rand() % 200;
     if (x > 189) {
-        NimbleBullet *enemyBullet = new NimbleBullet(player->xPos, player->yPos,
-                                                     "../Assets/Bullets_enemy.png",
-                                                     nimble->xPos, nimble->yPos, 256,
-                                                     3);
+        NimbleBullet *enemyBullet = new NimbleBullet(player->xPos, player->yPos,nimble->xPos, nimble->yPos);
         Game::enemyBullets.push_back(reinterpret_cast<EnemyBullet *const>(enemyBullet));
     }
 }
@@ -294,7 +324,7 @@ void Game::addNimbleBullet() {
 void Game::addPlayerMissile() {
     if (player->hit == false) {
         if (missileCount > 0) {
-            auto *missile = new PlayerBullet("../Assets/Missiles_ship.png", player->xPos, player->yPos, 256, 3);
+            auto *missile = new PlayerMissile(player->xPos, player->yPos);
             Game::playerMissile.push_back(missile);
             missileCount--;
             if (missileCount == 0) {
@@ -302,7 +332,7 @@ void Game::addPlayerMissile() {
             }
         } else if (cnt > 120) {
             printf("%d\n", cnt);
-            auto *missile = new PlayerBullet("../Assets/Missiles_ship.png", player->xPos, player->yPos, 256, 3);
+            auto *missile = new PlayerMissile(player->xPos, player->yPos);
             Game::playerMissile.push_back(missile);
             cnt = 0;
         }
@@ -311,7 +341,7 @@ void Game::addPlayerMissile() {
 
 void Game::addPlayerBullet() {
     if (player->hit == false) {
-        PlayerBullet *playerBullet = new PlayerBullet("../Assets/Bullets_ship.png", player->xPos, player->yPos, 256, 3);
+        DefaultBullet *playerBullet = new PlayerBullet(player->xPos, player->yPos);
         Game::playerBullets.push_back(playerBullet);
     }
 }

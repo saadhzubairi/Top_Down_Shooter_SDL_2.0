@@ -9,6 +9,7 @@ GameObject::GameObject(const char *textureSheet, int x, int y,int sheetSizeXY,in
     objTexture = TextureManager::loadSprite(textureSheet, sheetSizeXY, numSprites, gSpriteClips);
     xPos = x;
     yPos = y;
+    frame = 0;
 }
 
 GameObject::~GameObject() {}
@@ -20,8 +21,8 @@ void GameObject::Update() {
     srcR.y = 0;
     destR.x = xPos;
     destR.y = yPos;
-    destR.h = srcR.h / 2;
-    destR.w = srcR.w / 2;
+    destR.h = srcR.h/2;
+    destR.w = srcR.w/2;
 }
 
 void GameObject::Render() {
@@ -49,6 +50,10 @@ void GameObject::Move() {}
 void GameObject::Translate(int x, int y) {
     this->tX = x;
     this->tY = y;
+}
+
+void GameObject::setObjTexture(const char *textureSheet,int sheetSizeXY,int numSprites) {
+    objTexture = TextureManager::loadSprite(textureSheet, sheetSizeXY, numSprites, gSpriteClips);
 }
 
 

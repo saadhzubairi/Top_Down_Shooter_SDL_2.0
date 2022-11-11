@@ -20,7 +20,7 @@ void Ranger::Move() {
     yPos += (int)tY;
     tX *= fric;
     tY *= fric;
-    if (yPos>1000){
+    if (yPos>800){
         alive = false;
     }
     GameObject::Translate(0, 2);

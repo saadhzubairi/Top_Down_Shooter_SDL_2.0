@@ -51,7 +51,7 @@ build cmake_object_order_depends_target_SDL_test: phony || CMakeFiles\SDL_test.d
 
 build CMakeFiles\SDL_test.dir\main.cpp.obj: CXX_COMPILER__SDL_test_Debug C$:\Users\Saad$ Zubairi\CLionProjects\SDL_test\main.cpp || cmake_object_order_depends_target_SDL_test
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
-  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include
+  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include -IC:\src\SDL2_ttf-2.20.1\include
   OBJECT_DIR = CMakeFiles\SDL_test.dir
   OBJECT_FILE_DIR = CMakeFiles\SDL_test.dir
   TARGET_COMPILE_PDB = CMakeFiles\SDL_test.dir\
@@ -59,7 +59,7 @@ build CMakeFiles\SDL_test.dir\main.cpp.obj: CXX_COMPILER__SDL_test_Debug C$:\Use
 
 build CMakeFiles\SDL_test.dir\Game.cpp.obj: CXX_COMPILER__SDL_test_Debug C$:\Users\Saad$ Zubairi\CLionProjects\SDL_test\Game.cpp || cmake_object_order_depends_target_SDL_test
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
-  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include
+  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include -IC:\src\SDL2_ttf-2.20.1\include
   OBJECT_DIR = CMakeFiles\SDL_test.dir
   OBJECT_FILE_DIR = CMakeFiles\SDL_test.dir
   TARGET_COMPILE_PDB = CMakeFiles\SDL_test.dir\
@@ -67,7 +67,7 @@ build CMakeFiles\SDL_test.dir\Game.cpp.obj: CXX_COMPILER__SDL_test_Debug C$:\Use
 
 build CMakeFiles\SDL_test.dir\HelperClasses\TextureManager.cpp.obj: CXX_COMPILER__SDL_test_Debug C$:\Users\Saad$ Zubairi\CLionProjects\SDL_test\HelperClasses\TextureManager.cpp || cmake_object_order_depends_target_SDL_test
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
-  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include
+  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include -IC:\src\SDL2_ttf-2.20.1\include
   OBJECT_DIR = CMakeFiles\SDL_test.dir
   OBJECT_FILE_DIR = CMakeFiles\SDL_test.dir\HelperClasses
   TARGET_COMPILE_PDB = CMakeFiles\SDL_test.dir\
@@ -75,7 +75,7 @@ build CMakeFiles\SDL_test.dir\HelperClasses\TextureManager.cpp.obj: CXX_COMPILER
 
 build CMakeFiles\SDL_test.dir\GameObject.cpp.obj: CXX_COMPILER__SDL_test_Debug C$:\Users\Saad$ Zubairi\CLionProjects\SDL_test\GameObject.cpp || cmake_object_order_depends_target_SDL_test
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
-  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include
+  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include -IC:\src\SDL2_ttf-2.20.1\include
   OBJECT_DIR = CMakeFiles\SDL_test.dir
   OBJECT_FILE_DIR = CMakeFiles\SDL_test.dir
   TARGET_COMPILE_PDB = CMakeFiles\SDL_test.dir\
@@ -83,7 +83,7 @@ build CMakeFiles\SDL_test.dir\GameObject.cpp.obj: CXX_COMPILER__SDL_test_Debug C
 
 build CMakeFiles\SDL_test.dir\HelperClasses\Map.cpp.obj: CXX_COMPILER__SDL_test_Debug C$:\Users\Saad$ Zubairi\CLionProjects\SDL_test\HelperClasses\Map.cpp || cmake_object_order_depends_target_SDL_test
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
-  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include
+  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include -IC:\src\SDL2_ttf-2.20.1\include
   OBJECT_DIR = CMakeFiles\SDL_test.dir
   OBJECT_FILE_DIR = CMakeFiles\SDL_test.dir\HelperClasses
   TARGET_COMPILE_PDB = CMakeFiles\SDL_test.dir\
@@ -91,7 +91,7 @@ build CMakeFiles\SDL_test.dir\HelperClasses\Map.cpp.obj: CXX_COMPILER__SDL_test_
 
 build CMakeFiles\SDL_test.dir\PlayerShip.cpp.obj: CXX_COMPILER__SDL_test_Debug C$:\Users\Saad$ Zubairi\CLionProjects\SDL_test\PlayerShip.cpp || cmake_object_order_depends_target_SDL_test
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
-  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include
+  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include -IC:\src\SDL2_ttf-2.20.1\include
   OBJECT_DIR = CMakeFiles\SDL_test.dir
   OBJECT_FILE_DIR = CMakeFiles\SDL_test.dir
   TARGET_COMPILE_PDB = CMakeFiles\SDL_test.dir\
@@ -99,7 +99,7 @@ build CMakeFiles\SDL_test.dir\PlayerShip.cpp.obj: CXX_COMPILER__SDL_test_Debug C
 
 build CMakeFiles\SDL_test.dir\Enemies\Ranger.cpp.obj: CXX_COMPILER__SDL_test_Debug C$:\Users\Saad$ Zubairi\CLionProjects\SDL_test\Enemies\Ranger.cpp || cmake_object_order_depends_target_SDL_test
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
-  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include
+  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include -IC:\src\SDL2_ttf-2.20.1\include
   OBJECT_DIR = CMakeFiles\SDL_test.dir
   OBJECT_FILE_DIR = CMakeFiles\SDL_test.dir\Enemies
   TARGET_COMPILE_PDB = CMakeFiles\SDL_test.dir\
@@ -107,15 +107,15 @@ build CMakeFiles\SDL_test.dir\Enemies\Ranger.cpp.obj: CXX_COMPILER__SDL_test_Deb
 
 build CMakeFiles\SDL_test.dir\Enemies\Nimble.cpp.obj: CXX_COMPILER__SDL_test_Debug C$:\Users\Saad$ Zubairi\CLionProjects\SDL_test\Enemies\Nimble.cpp || cmake_object_order_depends_target_SDL_test
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
-  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include
+  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include -IC:\src\SDL2_ttf-2.20.1\include
   OBJECT_DIR = CMakeFiles\SDL_test.dir
   OBJECT_FILE_DIR = CMakeFiles\SDL_test.dir\Enemies
   TARGET_COMPILE_PDB = CMakeFiles\SDL_test.dir\
   TARGET_PDB = SDL_test.pdb
 
-build CMakeFiles\SDL_test.dir\Bullets\PlayerBullet.cpp.obj: CXX_COMPILER__SDL_test_Debug C$:\Users\Saad$ Zubairi\CLionProjects\SDL_test\Bullets\PlayerBullet.cpp || cmake_object_order_depends_target_SDL_test
+build CMakeFiles\SDL_test.dir\Bullets\DefaultBullet.cpp.obj: CXX_COMPILER__SDL_test_Debug C$:\Users\Saad$ Zubairi\CLionProjects\SDL_test\Bullets\DefaultBullet.cpp || cmake_object_order_depends_target_SDL_test
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
-  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include
+  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include -IC:\src\SDL2_ttf-2.20.1\include
   OBJECT_DIR = CMakeFiles\SDL_test.dir
   OBJECT_FILE_DIR = CMakeFiles\SDL_test.dir\Bullets
   TARGET_COMPILE_PDB = CMakeFiles\SDL_test.dir\
@@ -123,7 +123,7 @@ build CMakeFiles\SDL_test.dir\Bullets\PlayerBullet.cpp.obj: CXX_COMPILER__SDL_te
 
 build CMakeFiles\SDL_test.dir\Bullets\EnemyBullet.cpp.obj: CXX_COMPILER__SDL_test_Debug C$:\Users\Saad$ Zubairi\CLionProjects\SDL_test\Bullets\EnemyBullet.cpp || cmake_object_order_depends_target_SDL_test
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
-  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include
+  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include -IC:\src\SDL2_ttf-2.20.1\include
   OBJECT_DIR = CMakeFiles\SDL_test.dir
   OBJECT_FILE_DIR = CMakeFiles\SDL_test.dir\Bullets
   TARGET_COMPILE_PDB = CMakeFiles\SDL_test.dir\
@@ -131,9 +131,33 @@ build CMakeFiles\SDL_test.dir\Bullets\EnemyBullet.cpp.obj: CXX_COMPILER__SDL_tes
 
 build CMakeFiles\SDL_test.dir\Bullets\NimbleBullet.cpp.obj: CXX_COMPILER__SDL_test_Debug C$:\Users\Saad$ Zubairi\CLionProjects\SDL_test\Bullets\NimbleBullet.cpp || cmake_object_order_depends_target_SDL_test
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
-  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include
+  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include -IC:\src\SDL2_ttf-2.20.1\include
   OBJECT_DIR = CMakeFiles\SDL_test.dir
   OBJECT_FILE_DIR = CMakeFiles\SDL_test.dir\Bullets
+  TARGET_COMPILE_PDB = CMakeFiles\SDL_test.dir\
+  TARGET_PDB = SDL_test.pdb
+
+build CMakeFiles\SDL_test.dir\Bullets\PlayerBullet.cpp.obj: CXX_COMPILER__SDL_test_Debug C$:\Users\Saad$ Zubairi\CLionProjects\SDL_test\Bullets\PlayerBullet.cpp || cmake_object_order_depends_target_SDL_test
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
+  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include -IC:\src\SDL2_ttf-2.20.1\include
+  OBJECT_DIR = CMakeFiles\SDL_test.dir
+  OBJECT_FILE_DIR = CMakeFiles\SDL_test.dir\Bullets
+  TARGET_COMPILE_PDB = CMakeFiles\SDL_test.dir\
+  TARGET_PDB = SDL_test.pdb
+
+build CMakeFiles\SDL_test.dir\Bullets\PlayerMissile.cpp.obj: CXX_COMPILER__SDL_test_Debug C$:\Users\Saad$ Zubairi\CLionProjects\SDL_test\Bullets\PlayerMissile.cpp || cmake_object_order_depends_target_SDL_test
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
+  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include -IC:\src\SDL2_ttf-2.20.1\include
+  OBJECT_DIR = CMakeFiles\SDL_test.dir
+  OBJECT_FILE_DIR = CMakeFiles\SDL_test.dir\Bullets
+  TARGET_COMPILE_PDB = CMakeFiles\SDL_test.dir\
+  TARGET_PDB = SDL_test.pdb
+
+build CMakeFiles\SDL_test.dir\UI\Label.cpp.obj: CXX_COMPILER__SDL_test_Debug C$:\Users\Saad$ Zubairi\CLionProjects\SDL_test\UI\Label.cpp || cmake_object_order_depends_target_SDL_test
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
+  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include -IC:\src\SDL2_ttf-2.20.1\include
+  OBJECT_DIR = CMakeFiles\SDL_test.dir
+  OBJECT_FILE_DIR = CMakeFiles\SDL_test.dir\UI
   TARGET_COMPILE_PDB = CMakeFiles\SDL_test.dir\
   TARGET_PDB = SDL_test.pdb
 
@@ -145,11 +169,11 @@ build CMakeFiles\SDL_test.dir\Bullets\NimbleBullet.cpp.obj: CXX_COMPILER__SDL_te
 #############################################
 # Link the executable SDL_test.exe
 
-build SDL_test.exe: CXX_EXECUTABLE_LINKER__SDL_test_Debug CMakeFiles\SDL_test.dir\main.cpp.obj CMakeFiles\SDL_test.dir\Game.cpp.obj CMakeFiles\SDL_test.dir\HelperClasses\TextureManager.cpp.obj CMakeFiles\SDL_test.dir\GameObject.cpp.obj CMakeFiles\SDL_test.dir\HelperClasses\Map.cpp.obj CMakeFiles\SDL_test.dir\PlayerShip.cpp.obj CMakeFiles\SDL_test.dir\Enemies\Ranger.cpp.obj CMakeFiles\SDL_test.dir\Enemies\Nimble.cpp.obj CMakeFiles\SDL_test.dir\Bullets\PlayerBullet.cpp.obj CMakeFiles\SDL_test.dir\Bullets\EnemyBullet.cpp.obj CMakeFiles\SDL_test.dir\Bullets\NimbleBullet.cpp.obj
+build SDL_test.exe: CXX_EXECUTABLE_LINKER__SDL_test_Debug CMakeFiles\SDL_test.dir\main.cpp.obj CMakeFiles\SDL_test.dir\Game.cpp.obj CMakeFiles\SDL_test.dir\HelperClasses\TextureManager.cpp.obj CMakeFiles\SDL_test.dir\GameObject.cpp.obj CMakeFiles\SDL_test.dir\HelperClasses\Map.cpp.obj CMakeFiles\SDL_test.dir\PlayerShip.cpp.obj CMakeFiles\SDL_test.dir\Enemies\Ranger.cpp.obj CMakeFiles\SDL_test.dir\Enemies\Nimble.cpp.obj CMakeFiles\SDL_test.dir\Bullets\DefaultBullet.cpp.obj CMakeFiles\SDL_test.dir\Bullets\EnemyBullet.cpp.obj CMakeFiles\SDL_test.dir\Bullets\NimbleBullet.cpp.obj CMakeFiles\SDL_test.dir\Bullets\PlayerBullet.cpp.obj CMakeFiles\SDL_test.dir\Bullets\PlayerMissile.cpp.obj CMakeFiles\SDL_test.dir\UI\Label.cpp.obj
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:X86 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = SDL2main.lib  SDL2.lib  SDL2_image.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
-  LINK_PATH = -LIBPATH:C:\src\SDL\lib\x86   -LIBPATH:C:\src\SDL2_image-2.6.2\lib\x86
+  LINK_LIBRARIES = SDL2main.lib  SDL2.lib  SDL2_image.lib  SDL2_ttf.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  LINK_PATH = -LIBPATH:C:\src\SDL\lib\x86   -LIBPATH:C:\src\SDL2_image-2.6.2\lib\x86   -LIBPATH:C:\src\SDL2_ttf-2.20.1\lib\x86
   OBJECT_DIR = CMakeFiles\SDL_test.dir
   POST_BUILD = cd .
   PRE_LINK = cd .

@@ -1,14 +1,8 @@
 #pragma once
+#include "DefaultBullet.h"
 
-
-#include "../GameObject.h"
-
-class PlayerBullet : public GameObject{
-
+class PlayerBullet: public DefaultBullet {
 public:
-
-    PlayerBullet(const char *textureSheet, int x, int y, int sheetSizeXy, int numSprites);
+    PlayerBullet(int x, int y);
     ~PlayerBullet();
-    void Move() override;
-    void Render();
 };

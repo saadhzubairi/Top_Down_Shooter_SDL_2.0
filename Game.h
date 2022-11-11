@@ -2,8 +2,9 @@
 #include <vector>
 #include "SDL.h"
 #include "SDL_image.h"
-#include "Bullets/PlayerBullet.h"
+#include "Bullets/DefaultBullet.h"
 #include "Bullets/EnemyBullet.h"
+#include "SDL_ttf.h"
 
 class Game {
 
@@ -27,8 +28,8 @@ public:
 
     static SDL_Renderer *renderer;
     static SDL_Event event;
-    static std::vector<PlayerBullet*> playerBullets;
-    static std::vector<PlayerBullet*> playerMissile;
+    static std::vector<DefaultBullet*> playerBullets;
+    static std::vector<DefaultBullet*> playerMissile;
     static std::vector<EnemyBullet*> enemyBullets;
     static int height;
     static int width;

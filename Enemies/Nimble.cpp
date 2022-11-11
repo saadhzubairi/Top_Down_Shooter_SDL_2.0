@@ -20,10 +20,10 @@ void Nimble::Move() {
     yPos += (int)tY;
     tX *= fric;
     tY *= fric;
-    if (yPos>1000){
+    if (yPos>800){
         alive = false;
     }
-    GameObject::Translate(0, 1);
+    GameObject::Translate(0, 3);
 }
 
 void Nimble::TakeHit() {

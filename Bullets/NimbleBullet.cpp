@@ -2,9 +2,8 @@
 #include <stdio.h>
 #include "../Game.h"
 
-NimbleBullet::NimbleBullet(int TarX, int TarY, const char *textureSheet, int x, int y, int sheetSizeXy,
-                           int numSprites) :
-        PlayerBullet(textureSheet, x, y, sheetSizeXy, numSprites) {
+NimbleBullet::NimbleBullet(int TarX, int TarY, int x, int y) :
+        DefaultBullet(x, y, 1) {
     this->TarX = TarX;
     this->TarY = TarY;
 
@@ -13,8 +12,7 @@ NimbleBullet::NimbleBullet(int TarX, int TarY, const char *textureSheet, int x, 
     dY = TarY - yPos;
     slope = dY / dX;
     xFactor = dY / slope;
-    xFactor = xFactor / 50;
-
+    xFactor = xFactor / 45;
 
     //printf("xFactor = %d ; dX,dY: [%d,%d]; slope: %f :: %f\n",xFactor*50,dX,dY,slope,xff);
 }
@@ -36,9 +34,9 @@ void NimbleBullet::Move() {
 }
 
 void NimbleBullet::Render() {
-    int xff = xFactor;
     frame++;
-    SDL_RenderCopyEx(Game::renderer, objTexture, &gSpriteClips[curSprite], &destR, -xff*7.5, NULL,SDL_FLIP_NONE);
+    int xff = xFactor;
+    SDL_RenderCopyEx(Game::renderer, objTexture, &gSpriteClips[curSprite], &destR, -xff * 7, NULL, SDL_FLIP_NONE);
     if (frame % 60 == 0) {
         SDL_RenderPresent(Game::renderer);
         curSprite++;
