@@ -14,7 +14,7 @@ class Game {
 public:
     Game();
     ~Game();
-    void init(const char *title, int xpos, int ypos, int width, int heigh, bool fullscreen);
+    void init(const char *title, int xpos, int ypos, int w, int heigh, bool fullscreen);
     void handleEvents();
     void update();
     void render();
@@ -25,7 +25,7 @@ public:
     void respawnEnemies();
 
     void startGame();
-    bool playStart;
+    bool playStart{};
     bool quitGame();
 
 
@@ -46,6 +46,6 @@ public:
 private:
     static int cnt;
     static int missileCount;
-    bool isRunning;
-    SDL_Window *window;
+    bool isRunning{};
+    SDL_Window *window{};
 };

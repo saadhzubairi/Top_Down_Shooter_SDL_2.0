@@ -26,8 +26,8 @@ SDL_Texture *UILabel::createText(const char *text, int x, int y, SDL_Rect *textR
     SDL_Surface *surface = TTF_RenderText_Solid(roboto, text, {255, 255, 255});
     SDL_Texture *textTexture = SDL_CreateTextureFromSurface(Game::renderer, surface);
 
-    textRect->x = x;
-    textRect->y = y;
+    textRect->x = x - (surface->w/2);
+    textRect->y = y - (surface->h/2);
     textRect->h = surface->h;
     textRect->w = surface->w;
 

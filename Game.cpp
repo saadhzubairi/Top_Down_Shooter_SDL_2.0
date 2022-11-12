@@ -1,5 +1,5 @@
 #include <vector>
-#include <stdio.h>
+#include <cstdio>
 #include "Game.h"
 #include "GameObject.h"
 #include "HelperClasses/Map.h"
@@ -44,11 +44,11 @@ Game::Game() {
     cnt = 0;
 }
 
-Game::~Game() {}
+Game::~Game() = default;
 
-void Game::init(const char *title, int xpos, int ypos, int width, int heigh, bool fullscreen) {
-    this->height = heigh;
-    this->width = width;
+void Game::init(const char *title, int xpos, int ypos, int w, int heigh, bool fullscreen) {
+    Game::height = heigh;
+    Game::width = w;
     this->playStart = false;
     this->isRunning = true;
     int flags = 0;
@@ -58,7 +58,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int heigh, boo
     if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
         std::cout << "[+] SDL initialized!" << std::endl;
 
-        window = SDL_CreateWindow(title, xpos, ypos, width, heigh, flags);
+        window = SDL_CreateWindow(title, xpos, ypos, w, heigh, flags);
         if (window) {
             std::cout << "[+] Window created!" << std::endl;
         }
@@ -77,8 +77,8 @@ void Game::init(const char *title, int xpos, int ypos, int width, int heigh, boo
         isRunning = true;
     } else { isRunning = false; }
 
-    startGameButton = new UIButtons("START", 330, 200, 105);
-    quitGameButton = new UIButtons("QUIT", 430, 400, 55);
+    startGameButton = new UIButtons("START", 500, 350, 105);
+    quitGameButton = new UIButtons("QUIT", 500, 475, 55);
 
     map = new Map();
 }
@@ -134,12 +134,12 @@ void Game::startGame() {
     ranger = new Ranger(200, 50);
     nimble = new Nimble(600, 50);
 
-    labels.push_back(new UILabel("Rangers Killed: ", 50, 10, 20));
-    labels.push_back(new UILabel("Nimbles Killed: ", 350, 10, 20));
-    labels.push_back(new UILabel("Rockets Left: ", 760, 10, 20));
-    labels.push_back(new UILabel("0", 200, 10, 20));
-    labels.push_back(new UILabel("0", 500, 10, 20));
-    labels.push_back(new UILabel("0", 900, 10, 20));
+    labels.push_back(new UILabel("Rangers Killed: ", 100, 30, 20));
+    labels.push_back(new UILabel("Nimbles Killed: ", 300, 30, 20));
+    labels.push_back(new UILabel("Rockets Left: ", 850, 30, 24));
+    labels.push_back(new UILabel("0", 200, 30, 20));
+    labels.push_back(new UILabel("0", 400, 30, 20));
+    labels.push_back(new UILabel("0", 940, 30, 24));
 
     playStart = true;
 }
@@ -150,10 +150,7 @@ void Game::render() {
     SDL_RenderClear(renderer);
     map->drawMap();
 
-
     if (playStart) {
-
-
 
         for (DefaultBullet *playerBullet: Game::playerBullets) {
             playerBullet->Render();
@@ -295,6 +292,7 @@ void Game::checkCollisions() {
         }
     }
 
+    //IF MISSILE HITS RANGER OR NIMBLE:
     for (DefaultBullet *playerMissile: Game::playerMissile) {
         if (playerMissile->yPos >= (ranger->yPos) && playerMissile->yPos <= (ranger->yPos + 50)) {
             if (playerMissile->xPos >= (ranger->xPos - 64) && playerMissile->xPos <= (ranger->xPos + 64)) {
@@ -320,6 +318,7 @@ void Game::checkCollisions() {
         }
     }
 
+    //IF BULLET HITS PLAYER
     for (EnemyBullet *enemyBullet: Game::enemyBullets) {
         if (enemyBullet->yPos >= player->yPos - 64 && enemyBullet->yPos <= player->yPos) {
             if (enemyBullet->xPos >= player->xPos - 64 && enemyBullet->xPos <= player->xPos + 64) {

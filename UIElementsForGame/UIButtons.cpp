@@ -8,10 +8,6 @@ UIButtons::UIButtons(const char *text, int x, int y, int font_size) : UILabel(te
     srcR.w = 256;
     srcR.h = 256;
 
-    destR.x = this->x - 10;
-    destR.y = this->y - 10;
-    destR.w = this->width + 20;
-    destR.h = this->height + 20;
 
     isVisible = true;
 
@@ -22,6 +18,10 @@ UIButtons::~UIButtons() {
 }
 
 void UIButtons::Render() {
+    destR.x = textRect.x-30;
+    destR.y = textRect.y-10;
+    destR.w = this->width + 60;
+    destR.h = this->height + 20;
     SDL_RenderCopy(Game::renderer, buttonText, &srcR, &destR);
     UILabel::Render();
 }
