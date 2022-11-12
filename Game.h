@@ -24,6 +24,11 @@ public:
     void checkCollisions();
     void respawnEnemies();
 
+    void startGame();
+    bool playStart;
+    bool quitGame();
+
+
     static void addPlayerBullet();
     static void addPlayerMissile();
     static void addEnemyBullet();

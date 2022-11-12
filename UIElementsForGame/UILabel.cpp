@@ -8,6 +8,7 @@ UILabel::UILabel(const char *text, int x, int y, int font_size) {
     this->x = x;
     this->y = y;
     this->font_size = font_size;
+    isVisible = true;
 }
 
 UILabel::~UILabel() {
@@ -17,16 +18,25 @@ UILabel::~UILabel() {
 
 
 void UILabel::Render() {
+    if(isVisible)
     SDL_RenderCopy(Game::renderer, textTexture, NULL, &textRect);
 }
 
 SDL_Texture *UILabel::createText(const char *text, int x, int y, SDL_Rect *textRect) {
     SDL_Surface *surface = TTF_RenderText_Solid(roboto, text, {255, 255, 255});
     SDL_Texture *textTexture = SDL_CreateTextureFromSurface(Game::renderer, surface);
+
     textRect->x = x;
     textRect->y = y;
     textRect->h = surface->h;
     textRect->w = surface->w;
+
+    this->width = textRect->w;
+    this->height = textRect->h;
+
+
+
+
     SDL_FreeSurface(surface);
     return textTexture;
 }

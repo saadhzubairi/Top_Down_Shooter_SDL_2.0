@@ -16,14 +16,10 @@ GameObject::GameObject(const char *textureSheet, int x, int y,int sheetSizeXY,in
 GameObject::~GameObject() {}
 
 void GameObject::Update() {
-    srcR.w = 256;
-    srcR.h = 256;
-    srcR.x = 0;
-    srcR.y = 0;
     destR.x = xPos;
     destR.y = yPos;
-    destR.h = srcR.h/2;
-    destR.w = srcR.w/2;
+    destR.h = 128;
+    destR.w = 128;
 }
 
 void GameObject::Render() {

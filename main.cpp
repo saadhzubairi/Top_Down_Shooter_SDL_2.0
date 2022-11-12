@@ -17,6 +17,8 @@ int main(int argc, char *argv[]) {
 
     game->init("BirchEngine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 800, false);
 
+    bool check_end = false;
+
     while (game->running() == true) {
 
         frameStart = SDL_GetTicks();
@@ -26,6 +28,10 @@ int main(int argc, char *argv[]) {
         game->deleteDeadStuff();
         game->checkCollisions();
         game->respawnEnemies();
+        game->quitGame();
+        check_end = game->quitGame();
+
+        if(check_end) break;
         frameTime = SDL_GetTicks() - frameStart;
 
         if (frameDelay > frameTime) {

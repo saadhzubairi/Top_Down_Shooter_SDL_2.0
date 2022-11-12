@@ -19,5 +19,8 @@ public:
     SDL_Texture* createText(const char* text, int x, int y, SDL_Rect *textRect);
     int x;
     int y;
+    int width;
+    int height;
     int font_size;
+    bool isVisible;
 };
