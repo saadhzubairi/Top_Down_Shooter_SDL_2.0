@@ -1,3 +1,4 @@
+#pragma once
 #include "GameObject.h"
 
 class PlayerShip : public GameObject{

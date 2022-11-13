@@ -5,7 +5,7 @@
 class GameObject {
 
 public:
-    GameObject(const char *textureSheet, int x, int y, int sheetSizeXY, int numSprites);
+    GameObject(const char *textureSheet, int x, int y, int sheetSizeXY, int numSprites, int spriteType);
     ~GameObject();
 
     virtual void Render();
@@ -14,6 +14,7 @@ public:
     virtual void Move() = 0;
     void Translate(int x, int y);
 
+    int spriteType;
     int xPos, yPos;
     float fric, tX, tY;
     bool alive = true;

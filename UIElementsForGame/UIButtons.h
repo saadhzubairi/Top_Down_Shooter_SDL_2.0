@@ -17,6 +17,7 @@ public:
     SDL_Texture *buttonText;
     SDL_Rect srcR, destR;
     bool HandleButtonClickEventsFromMouse(int x, int y);
+    void HandleHoverEffects(int x, int y);
     void Render();
 
 };

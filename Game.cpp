@@ -11,8 +11,11 @@
 #include "Bullets/NimbleBullet.h"
 #include "Bullets/PlayerBullet.h"
 #include "Bullets/PlayerMissile.h"
+#include "Bullets/RotatingBullet.h"
 #include "UIElementsForGame/Counters.h"
 #include "UIElementsForGame/UIButtons.h"
+#include "Enemies/Turret.h"
+#include "Enemies/Boss.h"
 
 
 SDL_Renderer *Game::renderer = nullptr;
@@ -22,12 +25,19 @@ std::vector<DefaultBullet *>    Game::playerMissile;
 std::vector<EnemyBullet *>    Game::enemyBullets;
 std::vector<UILabel *> labels;
 
+PlayerShip *Game::player;
 
 int Game::missileCount = 10;
 int Game::cnt = 0;
-PlayerShip *player;
 Ranger *ranger;
 Nimble *nimble;
+RotatingBullet *rotatingBullet;
+RotatingBullet *rotatingBullet2;
+RotatingBullet *rotatingBullet3;
+RotatingBullet *rotatingBullet4;
+RotatingBullet *rotatingBullet5;
+Turret *turret;
+Boss *boss;
 
 UIButtons *startGameButton;
 UIButtons *quitGameButton;
@@ -85,6 +95,7 @@ void Game::init(const char *title, int xpos, int ypos, int w, int heigh, bool fu
 
 void Game::handleEvents() {
     SDL_PollEvent(&event);
+    SDL_PumpEvents();
     if (event.type == SDL_QUIT) {
         isRunning = false;
     } else if (event.type == SDL_KEYDOWN && playStart) {
@@ -114,25 +125,44 @@ void Game::handleEvents() {
         int x, y;
         SDL_GetMouseState(&x, &y);
 
-        if(!playStart){
+        if (!playStart) {
             bool startPressed = startGameButton->HandleButtonClickEventsFromMouse(x, y);
             if (startPressed) startGame();
 
             bool quitPressed = quitGameButton->HandleButtonClickEventsFromMouse(x, y);
             if (quitPressed) isRunning = false;
         }
-    }
+    } /*else if (Game::event.type == SDL_MOUSEMOTION) {
+        int x, y;
+        SDL_GetMouseState(&x, &y);
+        startGameButton->HandleHoverEffects(x, y);
+    }*/
 }
 
-bool Game::quitGame(){
+bool Game::quitGame() {
     return !isRunning;
 }
 
 
 void Game::startGame() {
+
+    Game::missileCount = 10;
+    Counters::rockets_left = Game::missileCount;
+    Counters::nimble_kills = 0;
+    Counters::ranger_kills = 0;
+
     player = new PlayerShip(width / 2 - 66, height - 154);
-    ranger = new Ranger(200, 50);
-    nimble = new Nimble(600, 50);
+    ranger = new Ranger(200, 10);
+    nimble = new Nimble(600, 10);
+
+
+    //rotatingBullet = new RotatingBullet(436,336);
+    turret = new Turret(436, 100);
+    boss = new Boss(308, 100);
+    /*rotatingBullet2 = new RotatingBullet(200,136);
+    rotatingBullet3 = new RotatingBullet(400,536);
+    rotatingBullet4 = new RotatingBullet(200,536);
+    rotatingBullet5 = new RotatingBullet(400,136);*/
 
     labels.push_back(new UILabel("Rangers Killed: ", 100, 30, 20));
     labels.push_back(new UILabel("Nimbles Killed: ", 300, 30, 20));
@@ -151,7 +181,15 @@ void Game::render() {
     map->drawMap();
 
     if (playStart) {
-
+/*
+        rotatingBullet->Render();
+        rotatingBullet2->Render();
+        rotatingBullet3->Render();
+        rotatingBullet4->Render();
+        rotatingBullet5->Render();
+*/
+        boss->Render();
+        turret->Render();
         for (DefaultBullet *playerBullet: Game::playerBullets) {
             playerBullet->Render();
         }
@@ -169,8 +207,7 @@ void Game::render() {
         for (UILabel *label: labels) {
             label->Render();
         }
-    }
-    else{
+    } else {
         startGameButton->Render();
         quitGameButton->Render();
     }
@@ -180,6 +217,15 @@ void Game::render() {
 
 void Game::update() {
     if (playStart) {
+        turret->Update();
+        boss->Update();
+        /*
+        rotatingBullet->Update();
+        rotatingBullet2->Update();
+        rotatingBullet3->Update();
+        rotatingBullet4->Update();
+        rotatingBullet5->Update();
+        */
         if (player->isAlive()) {
             player->Update();
             player->Move();
@@ -211,11 +257,16 @@ void Game::update() {
         }
         addEnemyBullet();
         addNimbleBullet();
+
+        //WHERE PLAYER DIES
         cnt++;
         if (player->hit) {
             if (cnt == 120) {
                 playStart = false;
                 startGameButton->SetText("TRY AGAIN");
+                labels.clear();
+                enemyBullets.clear();
+                playerBullets.clear();
             }
         }
 
@@ -224,12 +275,14 @@ void Game::update() {
                 Counters::rockets_left = 1;
         }
 
-        std::string m = std::to_string(Counters::ranger_kills);
-        labels[3]->SetText(m);
-        m = std::to_string(Counters::nimble_kills);
-        labels[4]->SetText(m);
-        m = std::to_string(Counters::rockets_left);
-        labels[5]->SetText(m);
+        if (playStart) {
+            std::string m = std::to_string(Counters::ranger_kills);
+            labels[3]->SetText(m);
+            m = std::to_string(Counters::nimble_kills);
+            labels[4]->SetText(m);
+            m = std::to_string(Counters::rockets_left);
+            labels[5]->SetText(m);
+        }
     }
 }
 
@@ -319,7 +372,7 @@ void Game::checkCollisions() {
     }
 
     //IF BULLET HITS PLAYER
-    for (EnemyBullet *enemyBullet: Game::enemyBullets) {
+    /*for (EnemyBullet *enemyBullet: Game::enemyBullets) {
         if (enemyBullet->yPos >= player->yPos - 64 && enemyBullet->yPos <= player->yPos) {
             if (enemyBullet->xPos >= player->xPos - 64 && enemyBullet->xPos <= player->xPos + 64) {
                 if (!player->hit) {
@@ -330,7 +383,7 @@ void Game::checkCollisions() {
                 }
             }
         }
-    }
+    }*/
 
 }
 

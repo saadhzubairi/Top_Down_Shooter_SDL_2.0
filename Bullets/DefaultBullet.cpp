@@ -2,7 +2,7 @@
 #include "../Game.h"
 
 DefaultBullet::DefaultBullet(int x, int y, int type) : GameObject(
-        "../Assets/Bullets_ship.png", x, y,  256,3) {
+        "../Assets/Bullets_ship.png", x, y,  256,3,0) {
 
 
     /*
@@ -42,7 +42,7 @@ void DefaultBullet::Move() {
     yPos += (int)tY;
     tX *= fric;
     tY *= fric;
-    GameObject::Translate(0, -19);
+    GameObject::Translate(0, -30);
 
     if (yPos<0){
         this->alive = false;

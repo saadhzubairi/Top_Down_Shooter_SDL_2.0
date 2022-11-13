@@ -20,7 +20,7 @@ link_directories(${SDL2_LIB_DIR2})
 link_directories(${SDL2_LIB_DIR3})
 
 
-add_executable(SDL_test main.cpp Game.cpp Game.h HelperClasses/TextureManager.h HelperClasses/TextureManager.cpp GameObject.h GameObject.cpp HelperClasses/Map.cpp HelperClasses/Map.h PlayerShip.cpp PlayerShip.h Enemies/Ranger.cpp Enemies/Ranger.h Enemies/Nimble.cpp Enemies/Nimble.h Bullets/DefaultBullet.cpp Bullets/DefaultBullet.h Bullets/EnemyBullet.cpp Bullets/EnemyBullet.h Bullets/NimbleBullet.cpp Bullets/NimbleBullet.h Bullets/PlayerBullet.cpp Bullets/PlayerBullet.h Bullets/PlayerMissile.cpp Bullets/PlayerMissile.h UIElementsForGame/UILabel.cpp UIElementsForGame/UILabel.h UIElementsForGame/Counters.cpp UIElementsForGame/Counters.h UIElementsForGame/UIButtons.cpp UIElementsForGame/UIButtons.h)
+add_executable(SDL_test main.cpp Game.cpp Game.h HelperClasses/TextureManager.h HelperClasses/TextureManager.cpp GameObject.h GameObject.cpp HelperClasses/Map.cpp HelperClasses/Map.h PlayerShip.cpp PlayerShip.h Enemies/Ranger.cpp Enemies/Ranger.h Enemies/Nimble.cpp Enemies/Nimble.h Bullets/DefaultBullet.cpp Bullets/DefaultBullet.h Bullets/EnemyBullet.cpp Bullets/EnemyBullet.h Bullets/NimbleBullet.cpp Bullets/NimbleBullet.h Bullets/PlayerBullet.cpp Bullets/PlayerBullet.h Bullets/PlayerMissile.cpp Bullets/PlayerMissile.h UIElementsForGame/UILabel.cpp UIElementsForGame/UILabel.h UIElementsForGame/Counters.cpp UIElementsForGame/Counters.h UIElementsForGame/UIButtons.cpp UIElementsForGame/UIButtons.h Bullets/RotatingBullet.cpp Bullets/RotatingBullet.h Enemies/Turret.cpp Enemies/Turret.h Enemies/Boss.cpp Enemies/Boss.h)
 
 target_link_libraries(${PROJECT_NAME} SDL2main SDL2 SDL2_image SDL2_ttf)
 

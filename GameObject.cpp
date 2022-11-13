@@ -5,21 +5,39 @@
 
 int GameObject::curSprite = 0;
 
-GameObject::GameObject(const char *textureSheet, int x, int y,int sheetSizeXY,int numSprites) {
-    objTexture = TextureManager::loadSprite(textureSheet, sheetSizeXY, numSprites, gSpriteClips);
+GameObject::GameObject(const char *textureSheet, int x, int y, int sheetSizeXY, int numSprites, int spriteType) {
+
+    this->spriteType = spriteType;
+
+    switch (spriteType) {
+        case 0:
+            objTexture = TextureManager::loadSprite(textureSheet, sheetSizeXY, numSprites, gSpriteClips);
+            break;
+        case 1:
+            objTexture = TextureManager::loadSprite1(textureSheet, sheetSizeXY, gSpriteClips);
+            break;
+        case 2:
+            objTexture = TextureManager::loadSprite2(textureSheet, sheetSizeXY, numSprites , gSpriteClips);
+            break;
+    }
     xPos = x;
     yPos = y;
-    frame = 0;
     frame = 0;
 }
 
 GameObject::~GameObject() {}
 
 void GameObject::Update() {
+
     destR.x = xPos;
     destR.y = yPos;
-    destR.h = 128;
-    destR.w = 128;
+    if (spriteType == 2){
+        destR.h = 128;
+        destR.w = 128*3;
+    } else{
+        destR.h = 128;
+        destR.w = 128;
+    }
 }
 
 void GameObject::Render() {
@@ -48,7 +66,7 @@ void GameObject::Translate(int x, int y) {
     this->tY = y;
 }
 
-void GameObject::setObjTexture(const char *textureSheet,int sheetSizeXY,int numSprites) {
+void GameObject::setObjTexture(const char *textureSheet, int sheetSizeXY, int numSprites) {
     objTexture = TextureManager::loadSprite(textureSheet, sheetSizeXY, numSprites, gSpriteClips);
 }
 

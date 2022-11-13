@@ -34,3 +34,11 @@ bool UIButtons::HandleButtonClickEventsFromMouse(int x, int y) {
     }
     return false;
 }
+
+void UIButtons::HandleHoverEffects(int x, int y) {
+    if(x>destR.x && x<destR.x+destR.w){
+        if(y>destR.y && y<destR.y){
+            printf("on button!!!");
+        }
+    }
+}

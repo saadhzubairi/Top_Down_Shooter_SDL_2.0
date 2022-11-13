@@ -8,6 +8,7 @@
 #include "Bullets/EnemyBullet.h"
 #include "UIElementsForGame/UILabel.h"
 #include "SDL_ttf.h"
+#include "PlayerShip.h"
 
 class Game {
 
@@ -39,6 +40,8 @@ public:
     static std::vector<DefaultBullet* > playerBullets;
     static std::vector<DefaultBullet* > playerMissile;
     static std::vector< EnemyBullet*  > enemyBullets;
+
+    static PlayerShip *player;
 
     static int height;
     static int width;

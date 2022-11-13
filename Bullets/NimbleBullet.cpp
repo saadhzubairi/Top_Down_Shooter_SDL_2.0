@@ -22,6 +22,14 @@ NimbleBullet::~NimbleBullet() {
 }
 
 void NimbleBullet::Move() {
+
+    xFactor = 0;
+    dX = Game::player->xPos - xPos;
+    dY = Game::player->yPos - yPos;
+    slope = dY / dX;
+    xFactor = dY / slope;
+    xFactor = xFactor / 30;
+
     xPos += (int) tX;
     yPos += (int) tY;
     tX *= fric;
@@ -34,11 +42,37 @@ void NimbleBullet::Move() {
 }
 
 void NimbleBullet::Render() {
+
+    float dX = Game::player->xPos - xPos;
+    float dY = Game::player->yPos - yPos;
+
+
+    double angle = ((dX) == 0) ?
+                   -90
+                               :
+                   atan((dY) / (dX)) * 180.0 / M_PI;
+
+    if (dX > 0) {
+        angle += 180;
+    }
+
+    if(angle<0 && angle> (-90)){
+        if(angle> (-30))  angle = -30;
+    }
+    else if(angle>180 && angle < 270){
+        if (angle < 210) angle = 210;
+    }
+    else if(angle>0 && angle < 90){
+        angle = -30;
+    }
+    else if(angle>90 && angle < 180){
+        angle = 210;
+    }
+
+
+    SDL_RenderCopyEx(Game::renderer, objTexture, &gSpriteClips[curSprite], &destR, angle + 90, NULL, SDL_FLIP_NONE);
     frame++;
-    int xff = xFactor;
-    SDL_RenderCopyEx(Game::renderer, objTexture, &gSpriteClips[curSprite], &destR, -xff * 7, NULL, SDL_FLIP_NONE);
     if (frame % 60 == 0) {
-        SDL_RenderPresent(Game::renderer);
         curSprite++;
         if (curSprite > 2) {
             curSprite = 0;
