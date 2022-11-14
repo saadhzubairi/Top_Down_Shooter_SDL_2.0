@@ -17,5 +17,14 @@ void Boss::Render() {
 }
 
 void Boss::Move() {
+    xPos += (int)tX;
+    yPos += (int)tY;
+    tX *= fric;
+    tY *= fric;
+    GameObject::Translate(0, -1);
 
+    if (yPos<0){
+        this->alive = false;
+        /*yPos = Game::height;*/
+    }
 }

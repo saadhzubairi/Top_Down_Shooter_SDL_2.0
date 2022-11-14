@@ -13,14 +13,11 @@ void Turret::Move() {
 }
 
 void Turret::Render() {
+
     float dX = Game::player->xPos - xPos;
     float dY = Game::player->yPos - yPos;
 
-
-    double angle = ((dX) == 0) ?
-                   -90
-                               :
-                   atan((dY) / (dX)) * 180.0 / M_PI;
+    double angle = ((dX) == 0) ?-90:atan((dY) / (dX)) * 180.0 / M_PI;
 
     if (dX > 0) {
         angle += 180;

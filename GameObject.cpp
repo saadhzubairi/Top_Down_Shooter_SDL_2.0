@@ -17,11 +17,14 @@ GameObject::GameObject(const char *textureSheet, int x, int y, int sheetSizeXY, 
             objTexture = TextureManager::loadSprite1(textureSheet, sheetSizeXY, gSpriteClips);
             break;
         case 2:
-            objTexture = TextureManager::loadSprite2(textureSheet, sheetSizeXY, numSprites , gSpriteClips);
+            objTexture = TextureManager::loadSprite2(textureSheet, sheetSizeXY, numSprites, gSpriteClips);
             break;
     }
     xPos = x;
     yPos = y;
+    tX = 0;
+    tY = 0;
+    fric = 0.95;
     frame = 0;
 }
 
@@ -29,15 +32,18 @@ GameObject::~GameObject() {}
 
 void GameObject::Update() {
 
-    destR.x = xPos;
-    destR.y = yPos;
-    if (spriteType == 2){
-        destR.h = 128;
-        destR.w = 128*3;
-    } else{
+    if (spriteType == 2) {
+        destR.h = 256;
+        destR.w = 256 * 3;
+    } else if (spriteType == 1) {
+        destR.h = destR.w = 256;
+    }
+    else {
         destR.h = 128;
         destR.w = 128;
     }
+    destR.x = xPos - destR.w / 2;
+    destR.y = yPos - destR.h / 2;
 }
 
 void GameObject::Render() {

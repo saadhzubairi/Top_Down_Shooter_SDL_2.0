@@ -157,8 +157,8 @@ void Game::startGame() {
 
 
     //rotatingBullet = new RotatingBullet(436,336);
-    turret = new Turret(436, 100);
-    boss = new Boss(308, 100);
+    turret = new Turret(500, 300);
+    boss = new Boss(500, 300);
     /*rotatingBullet2 = new RotatingBullet(200,136);
     rotatingBullet3 = new RotatingBullet(400,536);
     rotatingBullet4 = new RotatingBullet(200,536);
@@ -219,6 +219,7 @@ void Game::update() {
     if (playStart) {
         turret->Update();
         boss->Update();
+        boss->Move();
         /*
         rotatingBullet->Update();
         rotatingBullet2->Update();
