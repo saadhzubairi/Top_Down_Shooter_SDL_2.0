@@ -36,7 +36,7 @@ RotatingBullet *rotatingBullet2;
 RotatingBullet *rotatingBullet3;
 RotatingBullet *rotatingBullet4;
 RotatingBullet *rotatingBullet5;
-Turret *turret;
+/*Turret *turret;*/
 Boss *boss;
 
 UIButtons *startGameButton;
@@ -60,6 +60,7 @@ void Game::init(const char *title, int xpos, int ypos, int w, int heigh, bool fu
     Game::height = heigh;
     Game::width = w;
     this->playStart = false;
+    this->bossStart = false;
     this->isRunning = true;
     int flags = 0;
     if (fullscreen) {
@@ -155,15 +156,6 @@ void Game::startGame() {
     ranger = new Ranger(200, 10);
     nimble = new Nimble(600, 10);
 
-
-    //rotatingBullet = new RotatingBullet(436,336);
-    turret = new Turret(500, 300);
-    boss = new Boss(500, 300);
-    /*rotatingBullet2 = new RotatingBullet(200,136);
-    rotatingBullet3 = new RotatingBullet(400,536);
-    rotatingBullet4 = new RotatingBullet(200,536);
-    rotatingBullet5 = new RotatingBullet(400,136);*/
-
     labels.push_back(new UILabel("Rangers Killed: ", 100, 30, 20));
     labels.push_back(new UILabel("Nimbles Killed: ", 300, 30, 20));
     labels.push_back(new UILabel("Rockets Left: ", 850, 30, 24));
@@ -174,6 +166,13 @@ void Game::startGame() {
     playStart = true;
 }
 
+void Game::startBoss() {
+    boss = new Boss(500, 0);
+    labels.push_back(new UILabel("Boss Life Left: ", 100, 30, 20));
+    labels.push_back(new UILabel("10", 200, 30, 20));
+    labels.push_back(new UILabel("Rockets Left: ", 850, 30, 24));
+    labels.push_back(new UILabel("0", 940, 30, 24));
+}
 
 void Game::render() {
 
@@ -181,67 +180,46 @@ void Game::render() {
     map->drawMap();
 
     if (playStart) {
-/*
-        rotatingBullet->Render();
-        rotatingBullet2->Render();
-        rotatingBullet3->Render();
-        rotatingBullet4->Render();
-        rotatingBullet5->Render();
-*/
-        boss->Render();
-        turret->Render();
+
+        //both level objects
+        if (player->isAlive()) player->Render();
+
         for (DefaultBullet *playerBullet: Game::playerBullets) {
             playerBullet->Render();
         }
         for (DefaultBullet *playerBullet: Game::playerMissile) {
             playerBullet->Render();
         }
-        for (EnemyBullet *enemyBullet: Game::enemyBullets) {
-            enemyBullet->Render();
-        }
-
-        if (player->isAlive()) player->Render();
-        if (ranger->isAlive()) ranger->Render();
-        if (nimble->isAlive()) nimble->Render();
-
         for (UILabel *label: labels) {
             label->Render();
         }
+
+        if (bossStart) {
+            boss->Render();
+
+        } else {
+            for (EnemyBullet *enemyBullet: Game::enemyBullets) {
+                enemyBullet->Render();
+            }
+            if (ranger->isAlive()) ranger->Render();
+            if (nimble->isAlive()) nimble->Render();
+        }
+
+
     } else {
         startGameButton->Render();
         quitGameButton->Render();
     }
-    //Add stuff to render:
+
     SDL_RenderPresent(Game::renderer);
 }
 
 void Game::update() {
     if (playStart) {
-        turret->Update();
-        boss->Update();
-        boss->Move();
-        /*
-        rotatingBullet->Update();
-        rotatingBullet2->Update();
-        rotatingBullet3->Update();
-        rotatingBullet4->Update();
-        rotatingBullet5->Update();
-        */
         if (player->isAlive()) {
             player->Update();
             player->Move();
         }
-
-        if (ranger->isAlive()) {
-            ranger->Update();
-            ranger->Move();
-        }
-
-        if (nimble->isAlive()) {
-            nimble->Update();
-            nimble->Move();
-        }
-
         for (DefaultBullet *playerBullet: Game::playerBullets) {
             playerBullet->Update();
             playerBullet->Move();
@@ -252,12 +230,25 @@ void Game::update() {
             playerMissile->Move();
         }
 
-        for (EnemyBullet *enemyBullet: Game::enemyBullets) {
-            enemyBullet->Update();
-            enemyBullet->Move();
+        if (bossStart) {
+            boss->Update();
+            boss->Move();
+        } else {
+            if (ranger->isAlive()) {
+                ranger->Update();
+                ranger->Move();
+            }
+            if (nimble->isAlive()) {
+                nimble->Update();
+                nimble->Move();
+            }
+            for (EnemyBullet *enemyBullet: Game::enemyBullets) {
+                enemyBullet->Update();
+                enemyBullet->Move();
+            }
+            addEnemyBullet();
+            addNimbleBullet();
         }
-        addEnemyBullet();
-        addNimbleBullet();
 
         //WHERE PLAYER DIES
         cnt++;
@@ -271,18 +262,37 @@ void Game::update() {
             }
         }
 
+        //TO START BOSS LEVEL
+        if (Counters::ranger_kills >= 1 && Counters::nimble_kills >= 1 && !bossStart) {
+            delete ranger;
+            delete nimble;
+            labels.clear();
+            bossStart = true;
+            missileCount = 10;
+            Counters::rockets_left = 10;
+            startBoss();
+
+        }
+
         if (missileCount == 0) {
             if (cnt > 120)
                 Counters::rockets_left = 1;
         }
 
         if (playStart) {
-            std::string m = std::to_string(Counters::ranger_kills);
-            labels[3]->SetText(m);
-            m = std::to_string(Counters::nimble_kills);
-            labels[4]->SetText(m);
-            m = std::to_string(Counters::rockets_left);
-            labels[5]->SetText(m);
+            if (bossStart) {
+                std::string m = std::to_string(Counters::enemy_health);
+                labels[1]->SetText(m);
+                m = std::to_string(Counters::rockets_left);
+                labels[3]->SetText(m);
+            } else {
+                std::string m = std::to_string(Counters::ranger_kills);
+                labels[3]->SetText(m);
+                m = std::to_string(Counters::nimble_kills);
+                labels[4]->SetText(m);
+                m = std::to_string(Counters::rockets_left);
+                labels[5]->SetText(m);
+            }
         }
     }
 }
@@ -390,18 +400,20 @@ void Game::checkCollisions() {
 
 void Game::respawnEnemies() {
     if (playStart) {
-        if (!ranger->isAlive()) {
-            if (ranger->life == 0)
-                Counters::ranger_kills++;
-            int x = rand() % 9;
-            ranger = new Ranger(x * 100, -128);
-        }
-        if (!nimble->isAlive()) {
-            if (nimble->life == 0)
+        if(!bossStart){
+            if (!ranger->isAlive()) {
+                if (ranger->life == 0)
+                    Counters::ranger_kills++;
+                int x = rand() % 9;
+                ranger = new Ranger(x * 100, -128);
+            }
+            if (!nimble->isAlive()) {
+                if (nimble->life == 0)
 
-                Counters::nimble_kills++;
-            int x = rand() % 9;
-            nimble = new Nimble(x * 100, -128);
+                    Counters::nimble_kills++;
+                int x = rand() % 9;
+                nimble = new Nimble(x * 100, -128);
+            }
         }
     }
 }
@@ -426,7 +438,7 @@ void Game::addNimbleBullet() {
 }
 
 void Game::addPlayerMissile() {
-    if (player->hit == false) {
+    if (!player->hit) {
         if (missileCount > 0) {
             auto *missile = new PlayerMissile(player->xPos, player->yPos);
             Game::playerMissile.push_back(missile);
@@ -446,7 +458,7 @@ void Game::addPlayerMissile() {
 }
 
 void Game::addPlayerBullet() {
-    if (player->hit == false) {
+    if (!player->hit) {
         DefaultBullet *playerBullet = new PlayerBullet(player->xPos, player->yPos);
         Game::playerBullets.push_back(playerBullet);
     }

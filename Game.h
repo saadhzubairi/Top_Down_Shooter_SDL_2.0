@@ -26,7 +26,9 @@ public:
     void respawnEnemies();
 
     void startGame();
+    void startBoss();
     bool playStart{};
+    bool bossStart{};
     bool quitGame();
 
 

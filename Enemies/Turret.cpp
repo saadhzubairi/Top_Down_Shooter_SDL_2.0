@@ -9,7 +9,14 @@ void Turret::Move() {
     yPos += (int) tY;
     tX *= fric;
     tY *= fric;
-    GameObject::Translate(0, 0);
+
+    if(yPos>247){
+        GameObject::Translate(0, sin(frame/50)*2);
+
+    }
+    else{
+        GameObject::Translate(0, 2);
+    }
 }
 
 void Turret::Render() {
@@ -22,7 +29,8 @@ void Turret::Render() {
     if (dX > 0) {
         angle += 180;
     }
-    SDL_RenderCopyEx(Game::renderer, objTexture, &gSpriteClips[0], &destR, angle + 90, NULL, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(Game::renderer, objTexture, &gSpriteClips[0],
+                     &destR, angle + 90, NULL, SDL_FLIP_NONE);
 }
 
 Turret::~Turret() {
