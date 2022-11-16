@@ -25,7 +25,7 @@ void Boss::Move() {
     tY *= fric;
 
     if (yPos > 170) {
-        GameObject::Translate(0, sin(frame / 50) * 2);
+        GameObject::Translate(0, sin(Counters::frame / 50) * 2);
 
     } else {
         GameObject::Translate(0, 2);

@@ -69,13 +69,6 @@ void NimbleBullet::Render() {
         angle = 210;
     }
 
+    SDL_RenderCopyEx(Game::renderer, objTexture, &gSpriteClips[Counters::frame%3], &destR, angle + 90, NULL, SDL_FLIP_NONE);
 
-    SDL_RenderCopyEx(Game::renderer, objTexture, &gSpriteClips[curSprite], &destR, angle + 90, NULL, SDL_FLIP_NONE);
-    frame++;
-    if (frame % 60 == 0) {
-        curSprite++;
-        if (curSprite > 2) {
-            curSprite = 0;
-        }
-    }
 }

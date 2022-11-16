@@ -30,6 +30,8 @@ void PlayerShip::Move() {
     }
 }
 
+
+
 void PlayerShip::TakeHit() {
     hit = true;
 }

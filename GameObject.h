@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SDL.h"
+#include "UIElementsForGame/Counters.h"
 
 class GameObject {
 
@@ -24,7 +25,7 @@ public:
     SDL_Rect destR;
     SDL_Rect gSpriteClips[3];
 
-    int frame;
+
     static int curSprite;
 
     void Update();

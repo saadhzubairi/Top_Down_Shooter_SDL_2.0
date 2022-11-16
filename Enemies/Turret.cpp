@@ -1,6 +1,6 @@
 #include "Turret.h"
 
-Turret::Turret(int x, int y) : GameObject("../Assets/turret.png", x, y,  128,1,1) {
+Turret::Turret(int x, int y) : GameObject("../Assets/turret.png", x, y, 128, 1, 1) {
 
 }
 
@@ -10,11 +10,10 @@ void Turret::Move() {
     tX *= fric;
     tY *= fric;
 
-    if(yPos>247){
-        GameObject::Translate(0, sin(frame/50)*2);
+    if (yPos > 247) {
+        GameObject::Translate(0, sin(Counters::frame / 50) * 2);
 
-    }
-    else{
+    } else {
         GameObject::Translate(0, 2);
     }
 }
@@ -24,7 +23,7 @@ void Turret::Render() {
     float dX = Game::player->xPos - xPos;
     float dY = Game::player->yPos - yPos;
 
-    double angle = ((dX) == 0) ?-90:atan((dY) / (dX)) * 180.0 / M_PI;
+    double angle = ((dX) == 0) ? -90 : atan((dY) / (dX)) * 180.0 / M_PI;
 
     if (dX > 0) {
         angle += 180;

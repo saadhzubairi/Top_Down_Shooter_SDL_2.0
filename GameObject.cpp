@@ -25,7 +25,6 @@ GameObject::GameObject(const char *textureSheet, int x, int y, int sheetSizeXY, 
     tX = 0;
     tY = 0;
     fric = 0.95;
-    frame = 0;
 }
 
 GameObject::~GameObject() {}
@@ -47,14 +46,14 @@ void GameObject::Update() {
 }
 
 void GameObject::Render() {
-    frame++;
-    SDL_RenderCopy(Game::renderer, objTexture, &gSpriteClips[curSprite], &destR);
-    if (frame % 20 == 0) {
+    SDL_RenderCopy(Game::renderer, objTexture, &gSpriteClips[Counters::frame%3], &destR);
+    /*if (Counters::frame % 60 == 0) {
+        //printf("changed sprite @ %d frame, currsprite: %d\n",Counters::frame,curSprite);
         curSprite++;
         if (curSprite > 2) {
             curSprite = 0;
         }
-    }
+    }*/
 }
 
 void GameObject::Destroy() {

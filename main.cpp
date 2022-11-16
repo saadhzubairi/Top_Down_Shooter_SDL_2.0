@@ -20,7 +20,9 @@ int main(int argc, char *argv[]) {
     bool check_end = false;
 
     while (game->running() == true) {
+        Counters::frame++;
 
+        if((Counters::frame-1)%60 == 59) printf("%d\n",Counters::frame);
         frameStart = SDL_GetTicks();
         game->handleEvents();
         game->update();

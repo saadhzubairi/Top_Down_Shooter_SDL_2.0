@@ -167,7 +167,18 @@ void Game::startGame() {
 }
 
 void Game::startBoss() {
+
+    delete ranger;
+    delete nimble;
+    labels.clear();
+    enemyBullets.clear();
+    bossStart = true;
+    missileCount = 10;
+    Counters::rockets_left = 10;
+
+
     boss = new Boss(500, 0);
+
     labels.push_back(new UILabel("Boss Life Left: ", 100, 30, 20));
     labels.push_back(new UILabel("10", 200, 30, 20));
     labels.push_back(new UILabel("Rockets Left: ", 850, 30, 24));
@@ -264,14 +275,7 @@ void Game::update() {
 
         //TO START BOSS LEVEL
         if (Counters::ranger_kills >= 1 && Counters::nimble_kills >= 1 && !bossStart) {
-            delete ranger;
-            delete nimble;
-            labels.clear();
-            bossStart = true;
-            missileCount = 10;
-            Counters::rockets_left = 10;
             startBoss();
-
         }
 
         if (missileCount == 0) {
@@ -383,7 +387,7 @@ void Game::checkCollisions() {
     }
 
     //IF BULLET HITS PLAYER
-    /*for (EnemyBullet *enemyBullet: Game::enemyBullets) {
+    for (EnemyBullet *enemyBullet: Game::enemyBullets) {
         if (enemyBullet->yPos >= player->yPos - 64 && enemyBullet->yPos <= player->yPos) {
             if (enemyBullet->xPos >= player->xPos - 64 && enemyBullet->xPos <= player->xPos + 64) {
                 if (!player->hit) {
@@ -394,7 +398,7 @@ void Game::checkCollisions() {
                 }
             }
         }
-    }*/
+    }
 
 }
 
@@ -405,14 +409,14 @@ void Game::respawnEnemies() {
                 if (ranger->life == 0)
                     Counters::ranger_kills++;
                 int x = rand() % 9;
-                ranger = new Ranger(x * 100, -128);
+                ranger = new Ranger(x * 100 + 64, -128);
             }
             if (!nimble->isAlive()) {
                 if (nimble->life == 0)
 
                     Counters::nimble_kills++;
                 int x = rand() % 9;
-                nimble = new Nimble(x * 100, -128);
+                nimble = new Nimble(x * 100 + 64, -128);
             }
         }
     }
