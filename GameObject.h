@@ -6,10 +6,12 @@
 class GameObject {
 
 public:
-    GameObject(const char *textureSheet, int x, int y, int sheetSizeXY, int numSprites, int spriteType);
+
+    GameObject(const char *textureSheet, int x, int y, int sheetSizeX, int sheetSizeY, int rows, int cols, double zoom);
     ~GameObject();
 
     virtual void Render();
+
     bool isAlive();
     void Destroy();
     virtual void Move() = 0;
@@ -19,14 +21,19 @@ public:
     int xPos, yPos;
     float fric, tX, tY;
     bool alive = true;
-
     void setObjTexture(const char *textureSheet,int sheetSizeXY,int numSprites);
     SDL_Texture *objTexture;
     SDL_Rect destR;
     SDL_Rect gSpriteClips[3];
+    SDL_Rect spriteSourceRects[16];
 
 
     static int curSprite;
 
-    void Update();
+    virtual void Update();
+
+    int NumOfSprites;
+    int ObjHeight;
+    int ObjWidth;
+    double ObjZoom;
 };

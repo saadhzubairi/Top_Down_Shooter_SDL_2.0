@@ -7,8 +7,6 @@ UIButtons::UIButtons(const char *text, int x, int y, int font_size) : UILabel(te
     srcR.y = 0;
     srcR.w = 256;
     srcR.h = 256;
-
-
     isVisible = true;
 
 }

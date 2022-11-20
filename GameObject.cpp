@@ -5,56 +5,39 @@
 
 int GameObject::curSprite = 0;
 
-GameObject::GameObject(const char *textureSheet, int x, int y, int sheetSizeXY, int numSprites, int spriteType) {
+GameObject::GameObject(const char *textureSheet, int x, int y, int sheetSizeX, int sheetSizeY, int rows, int cols, double zoom) {
 
-    this->spriteType = spriteType;
-
-    switch (spriteType) {
-        case 0:
-            objTexture = TextureManager::loadSprite(textureSheet, sheetSizeXY, numSprites, gSpriteClips);
-            break;
-        case 1:
-            objTexture = TextureManager::loadSprite1(textureSheet, sheetSizeXY, gSpriteClips);
-            break;
-        case 2:
-            objTexture = TextureManager::loadSprite2(textureSheet, sheetSizeXY, numSprites, gSpriteClips);
-            break;
-    }
+    objTexture = TextureManager::LoadSprite(textureSheet,sheetSizeX,sheetSizeY,rows,cols,spriteSourceRects);
     xPos = x;
     yPos = y;
     tX = 0;
     tY = 0;
     fric = 0.95;
+    this->spriteType = 0;
+    this->NumOfSprites = rows*cols;
+    this->ObjWidth=sheetSizeX/cols * zoom;
+    this->ObjHeight=sheetSizeY/rows* zoom;
+    this->ObjZoom = zoom;
 }
 
 GameObject::~GameObject() {}
 
 void GameObject::Update() {
-
-    if (spriteType == 2) {
-        destR.h = 256;
-        destR.w = 256 * 3;
-    } else if (spriteType == 1) {
-        destR.h = destR.w = 256;
-    }
-    else {
-        destR.h = 128;
-        destR.w = 128;
-    }
+    destR.h = this->ObjHeight;
+    destR.w = this->ObjWidth;
     destR.x = xPos - destR.w / 2;
     destR.y = yPos - destR.h / 2;
 }
 
+/*void GameObject::UpdateObject() {
+
+}*/
+
 void GameObject::Render() {
-    SDL_RenderCopy(Game::renderer, objTexture, &gSpriteClips[Counters::frame%3], &destR);
-    /*if (Counters::frame % 60 == 0) {
-        //printf("changed sprite @ %d frame, currsprite: %d\n",Counters::frame,curSprite);
-        curSprite++;
-        if (curSprite > 2) {
-            curSprite = 0;
-        }
-    }*/
-}
+
+    SDL_RenderCopy(Game::renderer, objTexture, &spriteSourceRects[Counters::spriteFrame % this->NumOfSprites], &destR);}
+
+
 
 void GameObject::Destroy() {
     alive = false;
@@ -74,6 +57,3 @@ void GameObject::Translate(int x, int y) {
 void GameObject::setObjTexture(const char *textureSheet, int sheetSizeXY, int numSprites) {
     objTexture = TextureManager::loadSprite(textureSheet, sheetSizeXY, numSprites, gSpriteClips);
 }
-
-
-

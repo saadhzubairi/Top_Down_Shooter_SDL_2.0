@@ -4,7 +4,7 @@
 
 class NimbleBullet : public DefaultBullet {
 public:
-    NimbleBullet(int TarX, int TarY, int x, int y);
+    NimbleBullet(int x, int y);
 
     ~NimbleBullet();
 
@@ -13,10 +13,10 @@ public:
     void Render() override;
 
 private:
-    int TarX;
-    int TarY;
-    int xFactor;
+    double xFactor;
+    double yFactor;
     float dX;
     float dY;
     float slope;
+    double angle;
 };

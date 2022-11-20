@@ -21,8 +21,7 @@ int main(int argc, char *argv[]) {
 
     while (game->running() == true) {
         Counters::frame++;
-
-        if((Counters::frame-1)%60 == 59) printf("%d\n",Counters::frame);
+        if(Counters::frame%5==0) Counters::spriteFrame++;
         frameStart = SDL_GetTicks();
         game->handleEvents();
         game->update();

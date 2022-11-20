@@ -2,13 +2,30 @@
 
 #include<iostream>
 #include <vector>
+#include <cstdio>
+
 #include "SDL.h"
 #include "SDL_image.h"
-#include "Bullets/DefaultBullet.h"
-#include "Bullets/EnemyBullet.h"
-#include "UIElementsForGame/UILabel.h"
 #include "SDL_ttf.h"
+
 #include "PlayerShip.h"
+#include "GameObject.h"
+#include "PlayerShip.h"
+
+#include "HelperClasses/Map.h"
+
+#include "Enemies/Ranger.h"
+#include "Enemies/Nimble.h"
+
+#include "Bullets/DefaultBullet.h"
+#include "Bullets/PlayerBullet.h"
+#include "Bullets/EnemyBullet.h"
+#include "Bullets/NimbleBullet.h"
+#include "Bullets/PlayerMissile.h"
+
+
+#include "UIElementsForGame/Counters.h"
+
 
 class Game {
 
@@ -35,7 +52,7 @@ public:
     static void addPlayerBullet();
     static void addPlayerMissile();
     static void addEnemyBullet();
-    static void addNimbleBullet();
+    /*static bool checkObjsCollide(GameObject* GO1, GameObject* GO2);*/
 
     static SDL_Renderer *renderer;
     static SDL_Event event;

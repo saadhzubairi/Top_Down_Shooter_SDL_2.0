@@ -1,7 +1,7 @@
 #include "Nimble.h"
 
 Nimble::Nimble(int x, int y) :
-        GameObject("../Assets/Nimble.png", x, y,  256,3,0) {
+        GameObject("../Assets/Nimble.png", x, y,  768,256,1,3,0.5) {
     this->xPos = x;
     this->yPos = y;
     this->fric = 0.95;

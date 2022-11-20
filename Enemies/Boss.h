@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include "../GameObject.h"
@@ -9,11 +8,8 @@ class Boss : public GameObject {
 public:
     ~Boss();
     void Render() override;
-    void Move();
-    void Update() ;
+    void Move() override;
+    void Update() override;
     Boss(int x, int y);
-    Turret *turretm;
-    Turret *turretl;
-    Turret *turretr;
-
+    Turret *turretll, *turretl, *turretr, *turretrr;
 };

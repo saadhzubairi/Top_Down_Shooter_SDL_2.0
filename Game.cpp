@@ -1,22 +1,9 @@
-#include <vector>
-#include <cstdio>
+
 #include "Game.h"
-#include "GameObject.h"
-#include "HelperClasses/Map.h"
-#include "PlayerShip.h"
-#include "Enemies/Ranger.h"
-#include "Bullets/DefaultBullet.h"
-#include "Bullets/EnemyBullet.h"
-#include "Enemies/Nimble.h"
-#include "Bullets/NimbleBullet.h"
-#include "Bullets/PlayerBullet.h"
-#include "Bullets/PlayerMissile.h"
-#include "Bullets/RotatingBullet.h"
-#include "UIElementsForGame/Counters.h"
+#include "UIElementsForGame/UILabel.h"
 #include "UIElementsForGame/UIButtons.h"
 #include "Enemies/Turret.h"
 #include "Enemies/Boss.h"
-
 
 SDL_Renderer *Game::renderer = nullptr;
 
@@ -29,14 +16,9 @@ PlayerShip *Game::player;
 
 int Game::missileCount = 10;
 int Game::cnt = 0;
+
 Ranger *ranger;
 Nimble *nimble;
-RotatingBullet *rotatingBullet;
-RotatingBullet *rotatingBullet2;
-RotatingBullet *rotatingBullet3;
-RotatingBullet *rotatingBullet4;
-RotatingBullet *rotatingBullet5;
-/*Turret *turret;*/
 Boss *boss;
 
 UIButtons *startGameButton;
@@ -96,22 +78,24 @@ void Game::init(const char *title, int xpos, int ypos, int w, int heigh, bool fu
 
 void Game::handleEvents() {
     SDL_PollEvent(&event);
-    SDL_PumpEvents();
     if (event.type == SDL_QUIT) {
         isRunning = false;
     } else if (event.type == SDL_KEYDOWN && playStart) {
         switch (event.key.keysym.sym) {
             case SDLK_RIGHT:
-                player->Translate(7, 0);
+                player->Translate(10, 0);
                 break;
             case SDLK_LEFT:
-                player->Translate(-7, 0);
+                player->Translate(-10, 0);
+                //SDL_PushEvent(&event);
                 break;
             case SDLK_UP:
-                player->Translate(0, -5);
+                player->Translate(0, -10);
+                //SDL_PushEvent(&event);
                 break;
             case SDLK_DOWN:
-                player->Translate(0, 5);
+                player->Translate(0, 10);
+                //SDL_PushEvent(&event);
                 break;
             case SDLK_SPACE:
                 addPlayerBullet();
@@ -138,6 +122,7 @@ void Game::handleEvents() {
         SDL_GetMouseState(&x, &y);
         startGameButton->HandleHoverEffects(x, y);
     }*/
+
 }
 
 bool Game::quitGame() {
@@ -177,7 +162,7 @@ void Game::startBoss() {
     Counters::rockets_left = 10;
 
 
-    boss = new Boss(500, 0);
+    boss = new Boss(500, 100);
 
     labels.push_back(new UILabel("Boss Life Left: ", 100, 30, 20));
     labels.push_back(new UILabel("10", 200, 30, 20));
@@ -258,7 +243,6 @@ void Game::update() {
                 enemyBullet->Move();
             }
             addEnemyBullet();
-            addNimbleBullet();
         }
 
         //WHERE PLAYER DIES
@@ -335,6 +319,9 @@ void Game::checkCollisions() {
     //IF BULLET HITS RANGER OR NIMBLE:
     for (DefaultBullet *playerBullet: Game::playerBullets) {
         //RANGER
+
+        //if(checkObjsCollide(playerBullet,ranger))
+
         if (playerBullet->yPos >= (ranger->yPos) && playerBullet->yPos <= (ranger->yPos + 50)) {
             if (playerBullet->xPos >= (ranger->xPos - 64) && playerBullet->xPos <= (ranger->xPos + 64)) {
                 ranger->TakeHit();
@@ -404,7 +391,7 @@ void Game::checkCollisions() {
 
 void Game::respawnEnemies() {
     if (playStart) {
-        if(!bossStart){
+        if (!bossStart) {
             if (!ranger->isAlive()) {
                 if (ranger->life == 0)
                     Counters::ranger_kills++;
@@ -424,22 +411,20 @@ void Game::respawnEnemies() {
 
 void Game::addEnemyBullet() {
     int x = rand() % 200;
-    if (x > 195) {
+    int l = 195;
+    if (x > l) {
         if (ranger->xPos >= player->xPos - 64 && ranger->xPos <= player->xPos + 64) {
             EnemyBullet *enemyBullet = new EnemyBullet(
                     ranger->xPos, ranger->yPos);
             Game::enemyBullets.push_back(enemyBullet);
         }
     }
-}
-
-void Game::addNimbleBullet() {
-    int x = rand() % 200;
-    if (x > 195) {
-        NimbleBullet *enemyBullet = new NimbleBullet(player->xPos, player->yPos, nimble->xPos, nimble->yPos);
+    if (x > l) {
+        NimbleBullet *enemyBullet = new NimbleBullet(nimble->xPos, nimble->yPos);
         Game::enemyBullets.push_back(reinterpret_cast<EnemyBullet *const>(enemyBullet));
     }
 }
+
 
 void Game::addPlayerMissile() {
     if (!player->hit) {
@@ -467,3 +452,13 @@ void Game::addPlayerBullet() {
         Game::playerBullets.push_back(playerBullet);
     }
 }
+
+/*
+bool Game::checkObjsCollide(GameObject* GO1, GameObject* GO2) {
+    if(GO1->destR.x >= GO2->destR.x && GO1->destR.w <= GO2->destR.w  ||  GO2->destR.x >= GO1->destR.x && GO2->destR.w <= GO1->destR.w){
+        if(GO1->destR.y >= GO2->destR.y && GO1->destR.h <= GO2->destR.h  ||  GO2->destR.y >= GO1->destR.y && GO2->destR.h <= GO1->destR.h){
+            return true;
+        }
+    }
+    return false;
+}*/

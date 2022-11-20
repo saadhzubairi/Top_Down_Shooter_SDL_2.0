@@ -14,7 +14,7 @@ public:
     TTF_Font *roboto;
     SDL_Texture *textTexture;
     SDL_Rect textRect;
-    void Render();
+    virtual void Render();
     void SetText(std::string text);
     SDL_Texture* createText(const char* text, int x, int y, SDL_Rect *textRect);
     int x;

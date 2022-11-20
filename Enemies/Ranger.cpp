@@ -2,7 +2,7 @@
 
 
 Ranger::Ranger(int x, int y) :
-        GameObject("../Assets/Ranger.png", x, y,  256,3,0){
+        GameObject("../Assets/Ranger.png", x, y,768,256,1,3,0.5){
     this->xPos = x;
     this->yPos = y;
     this->fric = 0.95;

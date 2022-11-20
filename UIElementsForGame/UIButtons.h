@@ -8,7 +8,6 @@
 #include "../HelperClasses/TextureManager.h"
 #include "UILabel.h"
 
-
 class UIButtons : public UILabel {
 public:
     UIButtons(const char *text, int x, int y,

@@ -2,7 +2,7 @@
 #include "../Game.h"
 
 DefaultBullet::DefaultBullet(int x, int y, int type) : GameObject(
-        "../Assets/Bullets_ship.png", x, y,  256,3,0) {
+        "../Assets/Bullets_ship.png", x, y,  768,256,1,3,0.5) {
 
 
     /*
@@ -23,8 +23,6 @@ DefaultBullet::DefaultBullet(int x, int y, int type) : GameObject(
         default:
             break;
     }
-
-
     this->xPos = x;
     this->yPos = y;
     this->fric = 0.95;
@@ -33,9 +31,7 @@ DefaultBullet::DefaultBullet(int x, int y, int type) : GameObject(
 }
 
 
-DefaultBullet::~DefaultBullet() {
-
-}
+DefaultBullet::~DefaultBullet() {}
 
 void DefaultBullet::Move() {
     xPos += (int)tX;
@@ -46,7 +42,6 @@ void DefaultBullet::Move() {
 
     if (yPos<0){
         this->alive = false;
-        /*yPos = Game::height;*/
     }
 }
 

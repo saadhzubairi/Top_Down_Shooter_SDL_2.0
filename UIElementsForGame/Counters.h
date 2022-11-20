@@ -5,5 +5,6 @@ public:
     static int nimble_kills;
     static int rockets_left;
     static int enemy_health;
+    static int spriteFrame;
     static int frame;
 };
