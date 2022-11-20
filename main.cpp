@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
 
     while (game->running() == true) {
         Counters::frame++;
-        if(Counters::frame%5==0) Counters::spriteFrame++;
+        if(Counters::frame%6==0) Counters::spriteFrame++;
         frameStart = SDL_GetTicks();
         game->handleEvents();
         game->update();

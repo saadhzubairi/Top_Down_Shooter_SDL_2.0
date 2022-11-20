@@ -35,5 +35,10 @@ public:
     int NumOfSprites;
     int ObjHeight;
     int ObjWidth;
-    double ObjZoom;
+
+    int xMin;
+    int xMax;
+    int yMin;
+    int yMax;
+
 };

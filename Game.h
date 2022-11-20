@@ -22,8 +22,7 @@
 #include "Bullets/EnemyBullet.h"
 #include "Bullets/NimbleBullet.h"
 #include "Bullets/PlayerMissile.h"
-
-
+#include "HelperClasses/Boom.h"
 #include "UIElementsForGame/Counters.h"
 
 
@@ -52,13 +51,14 @@ public:
     static void addPlayerBullet();
     static void addPlayerMissile();
     static void addEnemyBullet();
-    /*static bool checkObjsCollide(GameObject* GO1, GameObject* GO2);*/
+    static bool checkObjsCollide(GameObject* GO1, GameObject* GO2);
 
     static SDL_Renderer *renderer;
     static SDL_Event event;
     static std::vector<DefaultBullet* > playerBullets;
     static std::vector<DefaultBullet* > playerMissile;
     static std::vector< EnemyBullet*  > enemyBullets;
+    static std::vector< Boom*  > booms;
 
     static PlayerShip *player;
 
@@ -67,7 +67,6 @@ public:
 
 private:
     static int cnt;
-    static int missileCount;
     bool isRunning{};
     SDL_Window *window{};
 };

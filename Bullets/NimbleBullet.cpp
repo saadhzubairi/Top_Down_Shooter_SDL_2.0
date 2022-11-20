@@ -18,7 +18,6 @@ NimbleBullet::NimbleBullet(int x, int y) :
     if (dX > 0) {
         angle += 180;
     }
-    printf("%f\n",yFactor);
 }
 
 NimbleBullet::~NimbleBullet() {
