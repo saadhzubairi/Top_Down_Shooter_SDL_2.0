@@ -2,6 +2,7 @@
 #include <string>
 #include "Game.h"
 #include "GameObject.h"
+#include "SDL_mixer.h"
 
 Game *game = nullptr;
 
