@@ -51,6 +51,7 @@ public:
     static void addPlayerBullet();
     static void addPlayerMissile();
     static void addEnemyBullet();
+    static void addBossBullet();
     static bool checkObjsCollide(GameObject* GO1, GameObject* GO2);
 
     static SDL_Renderer *renderer;

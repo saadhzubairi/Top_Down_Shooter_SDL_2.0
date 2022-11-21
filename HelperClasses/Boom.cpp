@@ -19,12 +19,9 @@ void Boom::Render() {
     SDL_RenderCopy(Game::renderer, objTexture, &spriteSourceRects[CurrSprite], &destR);
     life++;
     if(life%6 ==0) CurrSprite++;
-    printf("life: %d\n",life);
     if (life > 60) {
         alive = false;
     }
 }
 
-void Boom::Move() {
-
-}
+void Boom::Move() {}

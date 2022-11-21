@@ -21,14 +21,11 @@ public:
     int xPos, yPos;
     float fric, tX, tY;
     bool alive = true;
-    void setObjTexture(const char *textureSheet,int sheetSizeXY,int numSprites);
+    void setObjTexture(const char *textureSheet, int sheetSizeX,int sheetSizeY,int rows,int cols,double zoom);
     SDL_Texture *objTexture;
     SDL_Rect destR;
     SDL_Rect gSpriteClips[3];
     SDL_Rect spriteSourceRects[16];
-
-
-    static int curSprite;
 
     virtual void Update();
 

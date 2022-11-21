@@ -2,11 +2,7 @@
 #include "HelperClasses/TextureManager.h"
 #include "Game.h"
 
-
-int GameObject::curSprite = 0;
-
 GameObject::GameObject(const char *textureSheet, int x, int y, int sheetSizeX, int sheetSizeY, int rows, int cols, double zoom) {
-
     objTexture = TextureManager::LoadSprite(textureSheet,sheetSizeX,sheetSizeY,rows,cols,spriteSourceRects);
     xPos = x;
     yPos = y;
@@ -59,6 +55,9 @@ void GameObject::Translate(int x, int y) {
     this->tY = y;
 }
 
-void GameObject::setObjTexture(const char *textureSheet, int sheetSizeXY, int numSprites) {
-    objTexture = TextureManager::loadSprite(textureSheet, sheetSizeXY, numSprites, gSpriteClips);
+void GameObject::setObjTexture(const char *textureSheet, int sheetSizeX,int sheetSizeY,int rows,int cols,double zoom) {
+    objTexture = TextureManager::LoadSprite(textureSheet,sheetSizeX,sheetSizeY,rows,cols,spriteSourceRects);
+    this->NumOfSprites = rows*cols;
+    this->ObjWidth=sheetSizeX/cols * zoom;
+    this->ObjHeight=sheetSizeY/rows* zoom;
 }

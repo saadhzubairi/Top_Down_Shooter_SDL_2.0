@@ -19,4 +19,5 @@ private:
     float dY;
     float slope;
     double angle;
+    bool isTurBul;
 };

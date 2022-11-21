@@ -4,9 +4,7 @@ EnemyBullet::EnemyBullet(int x, int y) :
         DefaultBullet(x, y, 1) {
 }
 
-EnemyBullet::~EnemyBullet() {
-
-}
+EnemyBullet::~EnemyBullet() {}
 
 void EnemyBullet::Move() {
     xPos += (int) tX;
