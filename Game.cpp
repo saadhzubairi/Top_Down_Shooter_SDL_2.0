@@ -5,14 +5,16 @@
 #include "Enemies/Turret.h"
 #include "Enemies/Boss.h"
 #include "HelperClasses/Boom.h"
+#include "HelperClasses/BoomHit.h"
 #include "Bullets/BossBullet.h"
+
 
 SDL_Renderer *Game::renderer = nullptr;
 
 std::vector<DefaultBullet *>    Game::playerBullets;
 std::vector<DefaultBullet *>    Game::playerMissile;
 std::vector<EnemyBullet *>    Game::enemyBullets;
-std::vector<Boom *>    Game::booms;
+std::vector<GameObject *>    Game::booms;
 
 std::vector<UILabel *> labels;
 
@@ -159,7 +161,7 @@ void Game::startBoss() {
     enemyBullets.clear();
     bossStart = true;
     Counters::rockets_left = 10;
-    boss = new Boss(500, 100);
+    boss = new Boss(500, -128);
 
     labels.push_back(new UILabel("Boss Life Left: ", 100, 30, 20));
     labels.push_back(new UILabel("10", 200, 30, 20));
@@ -174,36 +176,39 @@ void Game::render() {
 
     if (playStart) {
         //both level objects
-        for (DefaultBullet *playerBullet: Game::playerBullets) { playerBullet->Render(); }
-        for (DefaultBullet *playerBullet: Game::playerMissile) { playerBullet->Render(); }
-        for (Boom *boom: Game::booms) { boom->Render(); }
+
+
         for (UILabel *label: labels) { label->Render(); }
-        for (EnemyBullet *enemyBullet: Game::enemyBullets) { enemyBullet->Render(); }
 
         if (bossStart) { boss->Render(); }
-        else {
+
+        for (EnemyBullet *enemyBullet: Game::enemyBullets) { enemyBullet->Render(); }
+
+        if (bossStart) { boss->RenderTurrets(); }
+
+        for (DefaultBullet *playerBullet: Game::playerBullets) { playerBullet->Render(); }
+        for (DefaultBullet *playerBullet: Game::playerMissile) { playerBullet->Render(); }
+
+        if (!bossStart) {
             if (ranger->isAlive()) ranger->Render();
             if (nimble->isAlive()) nimble->Render();
         }
-
+        for (GameObject *boom: Game::booms) { boom->Render(); }
         if (player->isAlive()) player->Render();
     } else {
         startGameButton->Render();
         quitGameButton->Render();
     }
-
     SDL_RenderPresent(Game::renderer);
 }
 
 void Game::update() {
-
     if (playStart) {
-
         if (player->isAlive()) {
             player->Update();
             player->Move();
         }
-        for (Boom *boom: Game::booms) {
+        for (GameObject *boom: Game::booms) {
             boom->Update();
             boom->Move();
         }
@@ -225,6 +230,17 @@ void Game::update() {
             boss->Update();
             boss->Move();
             addBossBullet();
+
+            if (!boss->turretl->isAlive() && !boss->turretll->isAlive() && !boss->turretr->isAlive() &&
+                !boss->turretrr->isAlive() && !Counters::bossDead
+                    ) {
+                Counters::bossDead = true;
+                booms.push_back(new Boom(boss->xPos, boss->yPos));
+                booms.push_back(new Boom(boss->xPos - 200, boss->yPos));
+                booms.push_back(new Boom(boss->xPos + 200, boss->yPos));
+            }
+
+
         } else {
             if (ranger->isAlive()) {
                 ranger->Update();
@@ -250,8 +266,24 @@ void Game::update() {
             }
         }
 
+        //WHEN BOSS DIES:
+        if(Counters::bossDead){
+            Counters::bossDeathCounter--;
+            if(Counters::bossDeathCounter <= 0){
+                Counters::bossDeathCounter = 60;
+                Counters::bossDead = false;
+                enemyBullets.clear();
+                playerBullets.clear();
+                labels.clear();
+                playStart = false;
+                bossStart = false;
+                startGameButton->SetText("Play Again, Winner!");
+                Counters::frame = 0;
+            }
+        }
+
         //TO START BOSS LEVEL
-        if (Counters::frame >= 180 && !bossStart) {
+        if (Counters::frame >= 1800 && !bossStart) {
             startBoss();
         }
 
@@ -310,6 +342,7 @@ void Game::deleteDeadStuff() {
             Game::booms.erase(Game::booms.begin() + i);
         }
     }
+
 }
 
 void Game::checkCollisions() {
@@ -319,10 +352,36 @@ void Game::checkCollisions() {
 
         //RANGER & NIMBLE
         if (checkObjsCollide(playerBullet, ranger)) {
-            /*printf("player [%d-%d], ranger [%d-%d]\n",playerBullet->xMin,playerBullet->xMax,ranger->xMin,ranger->xMax);*/
             ranger->TakeHit();
+            booms.push_back(new BoomHit(ranger->xPos, ranger->yPos));
             playerBullet->Destroy();
+        }
 
+        if (bossStart) {
+            if (checkObjsCollide(playerBullet, boss->turretl) && boss->turretl->isAlive()) {
+                boss->turretl->TakeHit();
+                playerBullet->Destroy();
+                booms.push_back(new BoomHit(boss->turretl->xPos, boss->turretl->yPos));
+                Counters::enemy_health--;
+            }
+            if (checkObjsCollide(playerBullet, boss->turretll) && boss->turretll->isAlive()) {
+                boss->turretll->TakeHit();
+                playerBullet->Destroy();
+                booms.push_back(new BoomHit(boss->turretll->xPos, boss->turretll->yPos));
+                Counters::enemy_health--;
+            }
+            if (checkObjsCollide(playerBullet, boss->turretr) && boss->turretr->isAlive()) {
+                boss->turretr->TakeHit();
+                playerBullet->Destroy();
+                booms.push_back(new BoomHit(boss->turretr->xPos, boss->turretr->yPos));
+                Counters::enemy_health--;
+            }
+            if (checkObjsCollide(playerBullet, boss->turretrr) && boss->turretrr->isAlive()) {
+                boss->turretrr->TakeHit();
+                playerBullet->Destroy();
+                booms.push_back(new BoomHit(boss->turretrr->xPos, boss->turretrr->yPos));
+                Counters::enemy_health--;
+            }
         }
 
         //NIMBLE DODGE
@@ -359,7 +418,7 @@ void Game::checkCollisions() {
     }
 
     //IF BULLET HITS PLAYER
-    for (EnemyBullet *enemyBullet: Game::enemyBullets) {
+    /*for (EnemyBullet *enemyBullet: Game::enemyBullets) {
         if (checkObjsCollide(enemyBullet, player)) {
             if (!player->hit) {
                 enemyBullet->Destroy();
@@ -368,8 +427,7 @@ void Game::checkCollisions() {
                 cnt = 0;
             }
         }
-    }
-
+    }*/
 }
 
 bool Game::checkObjsCollide(GameObject *GO1, GameObject *GO2) {
@@ -409,7 +467,7 @@ void Game::respawnEnemies() {
 
 void Game::addEnemyBullet() {
     int x = rand() % 200;
-    int l = 195;
+    int l = 150;
     if (x > l) {
         if (ranger->xPos >= player->xPos - 64 && ranger->xPos <= player->xPos + 64) {
             EnemyBullet *enemyBullet = new EnemyBullet(
@@ -425,16 +483,25 @@ void Game::addEnemyBullet() {
 
 void Game::addBossBullet() {
     int x = rand() % 200;
-    int l = 196;
-    if (x > l) {
+    int l = 198;
+    if (x > l && boss->turretl->isAlive()) {
         BossBullet *bossBullet = new BossBullet(boss->turretl->xPos, boss->turretl->yPos);
         Game::enemyBullets.push_back(reinterpret_cast<EnemyBullet *const>(bossBullet));
-        /*bossBullet = new BossBullet(boss->turretll->xPos, boss->turretll->yPos);
+    }
+    x = rand() % 200;
+    if (x > l && boss->turretll->isAlive()) {
+        BossBullet *bossBullet = new BossBullet(boss->turretll->xPos, boss->turretll->yPos);
         Game::enemyBullets.push_back(reinterpret_cast<EnemyBullet *const>(bossBullet));
-        bossBullet = new BossBullet(boss->turretr->xPos, boss->turretr->yPos);
+    }
+    x = rand() % 200;
+    if (x > l && boss->turretr->isAlive()) {
+        BossBullet *bossBullet = new BossBullet(boss->turretr->xPos, boss->turretr->yPos);
         Game::enemyBullets.push_back(reinterpret_cast<EnemyBullet *const>(bossBullet));
-        bossBullet = new BossBullet(boss->turretrr->xPos, boss->turretrr->yPos);
-        Game::enemyBullets.push_back(reinterpret_cast<EnemyBullet *const>(bossBullet));*/
+    }
+    x = rand() % 200;
+    if (x > l && boss->turretrr->isAlive()) {
+        BossBullet *bossBullet = new BossBullet(boss->turretrr->xPos, boss->turretrr->yPos);
+        Game::enemyBullets.push_back(reinterpret_cast<EnemyBullet *const>(bossBullet));
     }
 }
 

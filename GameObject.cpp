@@ -9,7 +9,6 @@ GameObject::GameObject(const char *textureSheet, int x, int y, int sheetSizeX, i
     tX = 0;
     tY = 0;
     fric = 0.95;
-    this->spriteType = 0;
     this->NumOfSprites = rows*cols;
     this->ObjWidth=sheetSizeX/cols * zoom;
     this->ObjHeight=sheetSizeY/rows* zoom;

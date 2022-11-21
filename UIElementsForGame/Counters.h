@@ -7,4 +7,6 @@ public:
     static int enemy_health;
     static int spriteFrame;
     static int frame;
+    static bool bossDead;
+    static int bossDeathCounter;
 };

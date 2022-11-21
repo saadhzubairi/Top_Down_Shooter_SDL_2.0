@@ -59,7 +59,7 @@ public:
     static std::vector<DefaultBullet* > playerBullets;
     static std::vector<DefaultBullet* > playerMissile;
     static std::vector< EnemyBullet*  > enemyBullets;
-    static std::vector< Boom*  > booms;
+    static std::vector< GameObject*  > booms;
 
     static PlayerShip *player;
 

@@ -24,10 +24,10 @@ void RotatingBullet::Render() {
                                :
                    atan((dY) / (dX)) * 180.0 / M_PI;
 
-    if (dX > 0) {
-        angle += 180;
-    }
-    SDL_RenderCopyEx(Game::renderer, objTexture, &gSpriteClips[0], &destR, angle + 90, NULL, SDL_FLIP_NONE);
+    if (dX > 0) {angle += 180;}
+    SDL_RenderCopyEx(Game::renderer, objTexture,
+                     &spriteSourceRects[0], &destR,
+                     angle + 90, NULL, SDL_FLIP_NONE);
 }
 
 

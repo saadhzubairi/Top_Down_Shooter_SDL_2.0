@@ -8,4 +8,6 @@ public:
     ~Turret();
     void Render() override;
     void Move();
+    void TakeHit();
+    int life;
 };

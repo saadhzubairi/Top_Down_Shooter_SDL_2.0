@@ -38,6 +38,6 @@ void NimbleBullet::Move() {
 }
 
 void NimbleBullet::Render() {
-    SDL_RenderCopyEx(Game::renderer, objTexture, &gSpriteClips[Counters::spriteFrame % 3],
+    SDL_RenderCopyEx(Game::renderer, objTexture, &spriteSourceRects[Counters::spriteFrame % 3],
                      &destR, angle + 90, NULL, SDL_FLIP_NONE);
 }

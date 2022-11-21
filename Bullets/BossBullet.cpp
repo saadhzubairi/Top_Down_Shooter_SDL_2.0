@@ -35,7 +35,7 @@ void BossBullet::Move() {
 }
 
 void BossBullet::Render() {
-    SDL_RenderCopyEx(Game::renderer, objTexture, &spriteSourceRects[Counters::spriteFrame % this->NumOfSprites],
+    SDL_RenderCopyEx(Game::renderer, objTexture, &spriteSourceRects[Counters::frame % this->NumOfSprites],
                      &destR, angle + 90, NULL, SDL_FLIP_NONE);
 }
 
