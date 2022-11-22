@@ -11,6 +11,7 @@
 
 SDL_Renderer *Game::renderer = nullptr;
 
+
 std::vector<DefaultBullet *>    Game::playerBullets;
 std::vector<DefaultBullet *>    Game::playerMissile;
 std::vector<EnemyBullet *>    Game::enemyBullets;
@@ -69,12 +70,17 @@ void Game::init(const char *title, int xpos, int ypos, int w, int heigh, bool fu
 
         if (TTF_Init() == -1) {
         } else {
-            std::cout << "[+] SDL_ttf initialized!" << std::endl;
+            std::cout << "[+] SDL_ttf Initialized!" << std::endl;
         }
+
+        if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+            printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+        else printf("[+] SDL_Mixer Initialized\n");
 
         isRunning = true;
     } else { isRunning = false; }
-
+    musicController = new MusicController();
+    musicController->playMenuMusic();
     startGameButton = new UIButtons("START", 500, 350, 105);
     quitGameButton = new UIButtons("QUIT", 500, 475, 55);
 
@@ -104,8 +110,10 @@ void Game::handleEvents() {
                 break;
             case SDLK_SPACE:
                 addPlayerBullet();
+                musicController->playShot();
                 break;
             case SDLK_b:
+                musicController->playRocket();
                 addPlayerMissile();
                 break;
             default:
@@ -117,7 +125,7 @@ void Game::handleEvents() {
 
         if (!playStart) {
             bool startPressed = startGameButton->HandleButtonClickEventsFromMouse(x, y);
-            if (startPressed) startGame();
+            if (startPressed) { startGame(); musicController->playGameMusic();}
 
             bool quitPressed = quitGameButton->HandleButtonClickEventsFromMouse(x, y);
             if (quitPressed) isRunning = false;
@@ -137,22 +145,20 @@ void Game::startGame() {
     player = new PlayerShip(width / 2 - 66, height - 154);
     ranger = new Ranger(200, 10);
     nimble = new Nimble(600, 10);
-
     labels.push_back(new UILabel("Rangers Killed: ", 100, 30, 20));
     labels.push_back(new UILabel("Nimbles Killed: ", 300, 30, 20));
     labels.push_back(new UILabel("Rockets Left: ", 850, 30, 24));
-
     labels.push_back(new UILabel("0", 200, 30, 20));
     labels.push_back(new UILabel("0", 400, 30, 20));
     labels.push_back(new UILabel("0", 940, 30, 24));
-
     labels.push_back(new UILabel("Boss in: ", 60, 60, 15));
     labels.push_back(new UILabel("0", 100, 60, 15));
-
     playStart = true;
 }
 
 void Game::startBoss() {
+
+    musicController->playBossLevelStart();
     ranger->Translate(-1000, 0);
     nimble->Translate(-1000, 0);
     delete ranger;
@@ -187,13 +193,13 @@ void Game::render() {
         if (bossStart) { boss->RenderTurrets(); }
 
         for (DefaultBullet *playerBullet: Game::playerBullets) { playerBullet->Render(); }
-        for (DefaultBullet *playerBullet: Game::playerMissile) { playerBullet->Render(); }
 
         if (!bossStart) {
             if (ranger->isAlive()) ranger->Render();
             if (nimble->isAlive()) nimble->Render();
         }
         for (GameObject *boom: Game::booms) { boom->Render(); }
+        for (DefaultBullet *playerBullet: Game::playerMissile) { playerBullet->Render(); }
         if (player->isAlive()) player->Render();
     } else {
         startGameButton->Render();
@@ -235,8 +241,11 @@ void Game::update() {
                 !boss->turretrr->isAlive() && !Counters::bossDead
                     ) {
                 Counters::bossDead = true;
+                musicController->playBoom();
                 booms.push_back(new Boom(boss->xPos, boss->yPos));
+                musicController->playBoom();
                 booms.push_back(new Boom(boss->xPos - 200, boss->yPos));
+                musicController->playBoom();
                 booms.push_back(new Boom(boss->xPos + 200, boss->yPos));
             }
 
@@ -259,6 +268,9 @@ void Game::update() {
         if (player->hit) {
             if (cnt == 120) {
                 playStart = false;
+                bossStart = false;
+                Counters::frame = 0;
+                musicController->playMenuMusic();
                 startGameButton->SetText("TRY AGAIN");
                 labels.clear();
                 enemyBullets.clear();
@@ -267,9 +279,9 @@ void Game::update() {
         }
 
         //WHEN BOSS DIES:
-        if(Counters::bossDead){
+        if (Counters::bossDead) {
             Counters::bossDeathCounter--;
-            if(Counters::bossDeathCounter <= 0){
+            if (Counters::bossDeathCounter <= 0) {
                 Counters::bossDeathCounter = 60;
                 Counters::bossDead = false;
                 enemyBullets.clear();
@@ -279,6 +291,7 @@ void Game::update() {
                 bossStart = false;
                 startGameButton->SetText("Play Again, Winner!");
                 Counters::frame = 0;
+                musicController->playMenuMusic();
             }
         }
 
@@ -307,6 +320,11 @@ void Game::update() {
                 labels[5]->SetText(m);
                 m = std::to_string(30 - Counters::frame / 60);
                 labels[7]->SetText(m);
+            }
+        }
+        for (DefaultBullet *missile: playerMissile) {
+            if (Counters::frame%2==0){
+                booms.push_back(new Smoke(missile->xPos,missile->yPos));
             }
         }
     }
@@ -354,6 +372,7 @@ void Game::checkCollisions() {
         if (checkObjsCollide(playerBullet, ranger)) {
             ranger->TakeHit();
             booms.push_back(new BoomHit(ranger->xPos, ranger->yPos));
+            musicController->playHit();
             playerBullet->Destroy();
         }
 
@@ -362,25 +381,43 @@ void Game::checkCollisions() {
                 boss->turretl->TakeHit();
                 playerBullet->Destroy();
                 booms.push_back(new BoomHit(boss->turretl->xPos, boss->turretl->yPos));
+                musicController->playHit();
                 Counters::enemy_health--;
+
+                if(!boss->turretl->isAlive()){
+                    musicController->playBoom();
+                }
+
             }
             if (checkObjsCollide(playerBullet, boss->turretll) && boss->turretll->isAlive()) {
                 boss->turretll->TakeHit();
                 playerBullet->Destroy();
+                musicController->playHit();
                 booms.push_back(new BoomHit(boss->turretll->xPos, boss->turretll->yPos));
                 Counters::enemy_health--;
+                if(!boss->turretll->isAlive()){
+                    musicController->playBoom();
+                }
             }
             if (checkObjsCollide(playerBullet, boss->turretr) && boss->turretr->isAlive()) {
                 boss->turretr->TakeHit();
                 playerBullet->Destroy();
+                musicController->playHit();
                 booms.push_back(new BoomHit(boss->turretr->xPos, boss->turretr->yPos));
                 Counters::enemy_health--;
+                if(!boss->turretr->isAlive()){
+                    musicController->playBoom();
+                }
             }
             if (checkObjsCollide(playerBullet, boss->turretrr) && boss->turretrr->isAlive()) {
                 boss->turretrr->TakeHit();
                 playerBullet->Destroy();
+                musicController->playHit();
                 booms.push_back(new BoomHit(boss->turretrr->xPos, boss->turretrr->yPos));
                 Counters::enemy_health--;
+                if(!boss->turretrr->isAlive()){
+                    musicController->playBoom();
+                }
             }
         }
 
@@ -399,6 +436,10 @@ void Game::checkCollisions() {
 
         if (checkObjsCollide(playerMissile, ranger)) {
             ranger->TakeHit();
+            ranger->TakeHit();
+            ranger->TakeHit();
+            booms.push_back(new Boom(ranger->xPos, ranger->yPos));
+            musicController->playBoom();
             playerMissile->Destroy();
         }
 
@@ -418,16 +459,18 @@ void Game::checkCollisions() {
     }
 
     //IF BULLET HITS PLAYER
-    /*for (EnemyBullet *enemyBullet: Game::enemyBullets) {
+    for (EnemyBullet *enemyBullet: Game::enemyBullets) {
         if (checkObjsCollide(enemyBullet, player)) {
             if (!player->hit) {
-                enemyBullet->Destroy();
+                /*enemyBullet->Destroy();
                 player->setObjTexture("../Assets/Explosion.png", 768,256,1,3, 0.5);
+                musicController->playGameOver();
+                musicController->playBoom();
                 player->TakeHit();
-                cnt = 0;
+                cnt = 0;*/
             }
         }
-    }*/
+    }
 }
 
 bool Game::checkObjsCollide(GameObject *GO1, GameObject *GO2) {
@@ -447,6 +490,7 @@ void Game::respawnEnemies() {
                     Counters::ranger_kills++;
                     auto newBoom = new Boom(ranger->xPos, ranger->yPos);
                     booms.push_back(newBoom);
+                    musicController->playBoom();
                 }
 
                 int x = rand() % 9;
@@ -457,6 +501,7 @@ void Game::respawnEnemies() {
                     Counters::nimble_kills++;
                     auto newBoom = new Boom(nimble->xPos, nimble->yPos);
                     booms.push_back(newBoom);
+                    musicController->playBoom();
                 }
                 int x = rand() % 9;
                 nimble = new Nimble(x * 100 + 64, -128);
@@ -467,7 +512,7 @@ void Game::respawnEnemies() {
 
 void Game::addEnemyBullet() {
     int x = rand() % 200;
-    int l = 150;
+    int l = 198;
     if (x > l) {
         if (ranger->xPos >= player->xPos - 64 && ranger->xPos <= player->xPos + 64) {
             EnemyBullet *enemyBullet = new EnemyBullet(
@@ -482,23 +527,23 @@ void Game::addEnemyBullet() {
 }
 
 void Game::addBossBullet() {
-    int x = rand() % 200;
-    int l = 198;
+    int x = rand() % 300;
+    int l = 290;
     if (x > l && boss->turretl->isAlive()) {
         BossBullet *bossBullet = new BossBullet(boss->turretl->xPos, boss->turretl->yPos);
         Game::enemyBullets.push_back(reinterpret_cast<EnemyBullet *const>(bossBullet));
     }
-    x = rand() % 200;
+    x = rand() % 300;
     if (x > l && boss->turretll->isAlive()) {
         BossBullet *bossBullet = new BossBullet(boss->turretll->xPos, boss->turretll->yPos);
         Game::enemyBullets.push_back(reinterpret_cast<EnemyBullet *const>(bossBullet));
     }
-    x = rand() % 200;
+    x = rand() % 300;
     if (x > l && boss->turretr->isAlive()) {
         BossBullet *bossBullet = new BossBullet(boss->turretr->xPos, boss->turretr->yPos);
         Game::enemyBullets.push_back(reinterpret_cast<EnemyBullet *const>(bossBullet));
     }
-    x = rand() % 200;
+    x = rand() % 300;
     if (x > l && boss->turretrr->isAlive()) {
         BossBullet *bossBullet = new BossBullet(boss->turretrr->xPos, boss->turretrr->yPos);
         Game::enemyBullets.push_back(reinterpret_cast<EnemyBullet *const>(bossBullet));

@@ -7,6 +7,7 @@
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL_ttf.h"
+#include "SDL_mixer.h"
 
 #include "PlayerShip.h"
 #include "GameObject.h"
@@ -22,7 +23,12 @@
 #include "Bullets/EnemyBullet.h"
 #include "Bullets/NimbleBullet.h"
 #include "Bullets/PlayerMissile.h"
+
 #include "HelperClasses/Boom.h"
+#include "HelperClasses/MusicController.h"
+
+#include "HelperClasses/Smoke.h"
+
 #include "UIElementsForGame/Counters.h"
 
 
@@ -40,14 +46,12 @@ public:
     bool running();
     void checkCollisions();
     void respawnEnemies();
-
     void startGame();
     void startBoss();
     bool playStart{};
     bool bossStart{};
     bool quitGame();
-
-
+    MusicController* musicController;
     static void addPlayerBullet();
     static void addPlayerMissile();
     static void addEnemyBullet();

@@ -225,6 +225,22 @@ build CMakeFiles\SDL_test.dir\HelperClasses\BoomHit.cpp.obj: CXX_COMPILER__SDL_t
   TARGET_COMPILE_PDB = CMakeFiles\SDL_test.dir\
   TARGET_PDB = SDL_test.pdb
 
+build CMakeFiles\SDL_test.dir\HelperClasses\MusicController.cpp.obj: CXX_COMPILER__SDL_test_Debug C$:\Users\Saad$ Zubairi\CLionProjects\SDL_test\HelperClasses\MusicController.cpp || cmake_object_order_depends_target_SDL_test
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
+  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include -IC:\src\SDL2_ttf-2.20.1\include -IC:\src\SDL2_mixer-2.6.2\include
+  OBJECT_DIR = CMakeFiles\SDL_test.dir
+  OBJECT_FILE_DIR = CMakeFiles\SDL_test.dir\HelperClasses
+  TARGET_COMPILE_PDB = CMakeFiles\SDL_test.dir\
+  TARGET_PDB = SDL_test.pdb
+
+build CMakeFiles\SDL_test.dir\HelperClasses\Smoke.cpp.obj: CXX_COMPILER__SDL_test_Debug C$:\Users\Saad$ Zubairi\CLionProjects\SDL_test\HelperClasses\Smoke.cpp || cmake_object_order_depends_target_SDL_test
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
+  INCLUDES = -IC:\src\SDL\include -IC:\src\SDL2_image-2.6.2\include -IC:\src\SDL2_ttf-2.20.1\include -IC:\src\SDL2_mixer-2.6.2\include
+  OBJECT_DIR = CMakeFiles\SDL_test.dir
+  OBJECT_FILE_DIR = CMakeFiles\SDL_test.dir\HelperClasses
+  TARGET_COMPILE_PDB = CMakeFiles\SDL_test.dir\
+  TARGET_PDB = SDL_test.pdb
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target SDL_test
@@ -233,7 +249,7 @@ build CMakeFiles\SDL_test.dir\HelperClasses\BoomHit.cpp.obj: CXX_COMPILER__SDL_t
 #############################################
 # Link the executable SDL_test.exe
 
-build SDL_test.exe: CXX_EXECUTABLE_LINKER__SDL_test_Debug CMakeFiles\SDL_test.dir\main.cpp.obj CMakeFiles\SDL_test.dir\Game.cpp.obj CMakeFiles\SDL_test.dir\HelperClasses\TextureManager.cpp.obj CMakeFiles\SDL_test.dir\GameObject.cpp.obj CMakeFiles\SDL_test.dir\HelperClasses\Map.cpp.obj CMakeFiles\SDL_test.dir\PlayerShip.cpp.obj CMakeFiles\SDL_test.dir\Enemies\Ranger.cpp.obj CMakeFiles\SDL_test.dir\Enemies\Nimble.cpp.obj CMakeFiles\SDL_test.dir\Bullets\DefaultBullet.cpp.obj CMakeFiles\SDL_test.dir\Bullets\EnemyBullet.cpp.obj CMakeFiles\SDL_test.dir\Bullets\NimbleBullet.cpp.obj CMakeFiles\SDL_test.dir\Bullets\PlayerBullet.cpp.obj CMakeFiles\SDL_test.dir\Bullets\PlayerMissile.cpp.obj CMakeFiles\SDL_test.dir\UIElementsForGame\UILabel.cpp.obj CMakeFiles\SDL_test.dir\UIElementsForGame\Counters.cpp.obj CMakeFiles\SDL_test.dir\UIElementsForGame\UIButtons.cpp.obj CMakeFiles\SDL_test.dir\Bullets\RotatingBullet.cpp.obj CMakeFiles\SDL_test.dir\Enemies\Turret.cpp.obj CMakeFiles\SDL_test.dir\Enemies\Boss.cpp.obj CMakeFiles\SDL_test.dir\HelperClasses\Boom.cpp.obj CMakeFiles\SDL_test.dir\Bullets\BossBullet.cpp.obj CMakeFiles\SDL_test.dir\HelperClasses\BoomHit.cpp.obj
+build SDL_test.exe: CXX_EXECUTABLE_LINKER__SDL_test_Debug CMakeFiles\SDL_test.dir\main.cpp.obj CMakeFiles\SDL_test.dir\Game.cpp.obj CMakeFiles\SDL_test.dir\HelperClasses\TextureManager.cpp.obj CMakeFiles\SDL_test.dir\GameObject.cpp.obj CMakeFiles\SDL_test.dir\HelperClasses\Map.cpp.obj CMakeFiles\SDL_test.dir\PlayerShip.cpp.obj CMakeFiles\SDL_test.dir\Enemies\Ranger.cpp.obj CMakeFiles\SDL_test.dir\Enemies\Nimble.cpp.obj CMakeFiles\SDL_test.dir\Bullets\DefaultBullet.cpp.obj CMakeFiles\SDL_test.dir\Bullets\EnemyBullet.cpp.obj CMakeFiles\SDL_test.dir\Bullets\NimbleBullet.cpp.obj CMakeFiles\SDL_test.dir\Bullets\PlayerBullet.cpp.obj CMakeFiles\SDL_test.dir\Bullets\PlayerMissile.cpp.obj CMakeFiles\SDL_test.dir\UIElementsForGame\UILabel.cpp.obj CMakeFiles\SDL_test.dir\UIElementsForGame\Counters.cpp.obj CMakeFiles\SDL_test.dir\UIElementsForGame\UIButtons.cpp.obj CMakeFiles\SDL_test.dir\Bullets\RotatingBullet.cpp.obj CMakeFiles\SDL_test.dir\Enemies\Turret.cpp.obj CMakeFiles\SDL_test.dir\Enemies\Boss.cpp.obj CMakeFiles\SDL_test.dir\HelperClasses\Boom.cpp.obj CMakeFiles\SDL_test.dir\Bullets\BossBullet.cpp.obj CMakeFiles\SDL_test.dir\HelperClasses\BoomHit.cpp.obj CMakeFiles\SDL_test.dir\HelperClasses\MusicController.cpp.obj CMakeFiles\SDL_test.dir\HelperClasses\Smoke.cpp.obj
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:X86 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = SDL2main.lib  SDL2.lib  SDL2_image.lib  SDL2_ttf.lib  SDL2_mixer.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
