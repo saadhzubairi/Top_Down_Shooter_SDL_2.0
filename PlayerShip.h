@@ -8,6 +8,9 @@ public:
     void Move() override;
     bool hit;
     void TakeHit();
+    int xVel=0;
+    int yVel=0;
+
 private:
 
 };

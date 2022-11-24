@@ -7,16 +7,14 @@
 #include "HelperClasses/Boom.h"
 #include "HelperClasses/BoomHit.h"
 #include "Bullets/BossBullet.h"
-
+#include "Bullets/RotatingBullet.h"
 
 SDL_Renderer *Game::renderer = nullptr;
-
 
 std::vector<DefaultBullet *>    Game::playerBullets;
 std::vector<DefaultBullet *>    Game::playerMissile;
 std::vector<EnemyBullet *>    Game::enemyBullets;
 std::vector<GameObject *>    Game::booms;
-
 std::vector<UILabel *> labels;
 
 PlayerShip *Game::player;
@@ -29,6 +27,7 @@ Boss *boss;
 
 UIButtons *startGameButton;
 UIButtons *quitGameButton;
+
 
 int Game::height = 0;
 int Game::width = 0;
@@ -91,41 +90,36 @@ void Game::handleEvents() {
     SDL_PollEvent(&event);
     if (event.type == SDL_QUIT) {
         isRunning = false;
-    } else if (event.type == SDL_KEYDOWN && playStart) {
+    } else if (event.type == SDL_KEYDOWN && event.key.repeat == 0 && playStart) {
         switch (event.key.keysym.sym) {
-            case SDLK_RIGHT:
-                player->Translate(8, 0);
-                break;
-            case SDLK_LEFT:
-                player->Translate(-8, 0);
-                //SDL_PushEvent(&event);
-                break;
-            case SDLK_UP:
-                player->Translate(0, -8);
-                //SDL_PushEvent(&event);
-                break;
-            case SDLK_DOWN:
-                player->Translate(0, 8);
-                //SDL_PushEvent(&event);
-                break;
-            case SDLK_SPACE:
-                addPlayerBullet();
-                musicController->playShot();
-                break;
-            case SDLK_b:
-                musicController->playRocket();
-                addPlayerMissile();
-                break;
-            default:
-                break;
+            case SDLK_RIGHT:player->xVel = 8;break;
+            case SDLK_LEFT: player->xVel = -8;break;
+            case SDLK_UP:   player->yVel=-8;break;
+            case SDLK_DOWN: player->yVel =8;break;
+            case SDLK_SPACE:addPlayerBullet();  musicController->playShot();                        break;
+            case SDLK_b:                        musicController->playRocket();addPlayerMissile();   break;
+            default:break;
         }
-    } else if (Game::event.type == SDL_MOUSEBUTTONDOWN) {
+    }
+    else if (event.type == SDL_KEYUP && event.key.repeat == 0 && playStart) {
+        switch (event.key.keysym.sym) {
+            case SDLK_RIGHT:player->xVel = 0;break;
+            case SDLK_LEFT: player->xVel = 0;break;
+            case SDLK_UP:   player->yVel= 0;break;
+            case SDLK_DOWN: player->yVel = 0;break;
+            default:break;
+        }
+    }
+    else if (Game::event.type == SDL_MOUSEBUTTONDOWN) {
         int x, y;
         SDL_GetMouseState(&x, &y);
 
         if (!playStart) {
             bool startPressed = startGameButton->HandleButtonClickEventsFromMouse(x, y);
-            if (startPressed) { startGame(); musicController->playGameMusic();}
+            if (startPressed) {
+                startGame();
+                musicController->playGameMusic();
+            }
 
             bool quitPressed = quitGameButton->HandleButtonClickEventsFromMouse(x, y);
             if (quitPressed) isRunning = false;
@@ -201,9 +195,7 @@ void Game::render() {
         for (GameObject *boom: Game::booms) { boom->Render(); }
         for (DefaultBullet *playerBullet: Game::playerMissile) { playerBullet->Render(); }
         if (player->isAlive()) player->Render();
-    } else {
-        startGameButton->Render();
-        quitGameButton->Render();
+    } else {startGameButton->Render();quitGameButton->Render();
     }
     SDL_RenderPresent(Game::renderer);
 }
@@ -323,8 +315,8 @@ void Game::update() {
             }
         }
         for (DefaultBullet *missile: playerMissile) {
-            if (Counters::frame%2==0){
-                booms.push_back(new Smoke(missile->xPos,missile->yPos));
+            if (Counters::frame % 2 == 0) {
+                booms.push_back(new Smoke(missile->xPos, missile->yPos));
             }
         }
     }
@@ -384,7 +376,7 @@ void Game::checkCollisions() {
                 musicController->playHit();
                 Counters::enemy_health--;
 
-                if(!boss->turretl->isAlive()){
+                if (!boss->turretl->isAlive()) {
                     musicController->playBoom();
                 }
 
@@ -395,7 +387,7 @@ void Game::checkCollisions() {
                 musicController->playHit();
                 booms.push_back(new BoomHit(boss->turretll->xPos, boss->turretll->yPos));
                 Counters::enemy_health--;
-                if(!boss->turretll->isAlive()){
+                if (!boss->turretll->isAlive()) {
                     musicController->playBoom();
                 }
             }
@@ -405,7 +397,7 @@ void Game::checkCollisions() {
                 musicController->playHit();
                 booms.push_back(new BoomHit(boss->turretr->xPos, boss->turretr->yPos));
                 Counters::enemy_health--;
-                if(!boss->turretr->isAlive()){
+                if (!boss->turretr->isAlive()) {
                     musicController->playBoom();
                 }
             }
@@ -415,7 +407,7 @@ void Game::checkCollisions() {
                 musicController->playHit();
                 booms.push_back(new BoomHit(boss->turretrr->xPos, boss->turretrr->yPos));
                 Counters::enemy_health--;
-                if(!boss->turretrr->isAlive()){
+                if (!boss->turretrr->isAlive()) {
                     musicController->playBoom();
                 }
             }
@@ -468,6 +460,7 @@ void Game::checkCollisions() {
                 musicController->playBoom();
                 player->TakeHit();
                 cnt = 0;*/
+                printf("Collision!\n");
             }
         }
     }
@@ -528,7 +521,7 @@ void Game::addEnemyBullet() {
 
 void Game::addBossBullet() {
     int x = rand() % 300;
-    int l = 290;
+    int l = 297;
     if (x > l && boss->turretl->isAlive()) {
         BossBullet *bossBullet = new BossBullet(boss->turretl->xPos, boss->turretl->yPos);
         Game::enemyBullets.push_back(reinterpret_cast<EnemyBullet *const>(bossBullet));
@@ -582,5 +575,3 @@ void Game::addPlayerBullet() {
         Game::playerBullets.push_back(playerBullet);
     }
 }
-
-
